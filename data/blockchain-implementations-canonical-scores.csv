@@ -1,0 +1,68 @@
+project_name,organization,status,canonical_cell,coordination_risk_score,p_score,s_score,e_score,failure_pattern,governance_type,consortium_size_numeric,investment_usd_numeric
+ANZ Stablecoin A$DC,ANZ Bank,Launched,Network/Scalability,5.4,0.6,3,3,Scalability Constraint,Single Entity,1,0
+ASX CHESS,ASX,Failed,Network/Architecture,4.8,0.3,4,4,Technical Failure,Single Entity,1,250000000
+Australian National Blockchain,Australia Gov,Failed,System State/Economic Fitness,8.0,0.5,4,4,Network Effects Failure,Government,1,5000000
+B3i,Insurance Consortium,Failed,System State/Governance,17.2,0.86,5,4,Consortium Governance,Consortium,15,22000000
+Bahamas Sand Dollar,Central Bank Bahamas,Production,Law/Remedy,10.0,0.4,5,5,Regulatory Success,Government,1,0
+Banco Santander One Pay FX,Santander/Ripple,Discontinued,Law/Remedy,10.0,0.4,5,5,Regulatory Intervention,Corporate,1,20000000
+Bank of England Digital Pound,Bank of England,Design Phase,System State/Execution Model,3.6,0.4,3,3,Integration Planning,Government,1,0
+Batavia,IBM/UBS/Others,Failed,System State/Governance,17.2,0.86,5,4,Consortium Governance,Consortium,12,15000000
+Brazil DREX,Central Bank of Brazil,Pivot/Abandoning DLT,System State/Governance,17.2,0.86,5,4,Governance Failure,Multi-Bank,8,0
+China BSN,State Information Center,Limited International,Law/Legal Form,3.6,0.3,4,3,Geopolitical Risk,Government,1,100000000
+BurstIQ,BurstIQ,Struggling,Law/Remedy,10.0,0.4,5,5,Regulatory Compliance,Corporate,1,25000000
+Canton Network,Digital Asset + Banks,Launch 2024,System State/Governance,17.2,0.86,5,4,Consortium Management,Consortium,36,0
+CargoX,CargoX,Limited Success,System State/Economic Fitness,8.0,0.5,4,4,Limited Market,Corporate,1,10000000
+Chained Finance,Dianrong/FnConn,Failed,System State/Execution Model,3.6,0.4,3,3,Integration Failure,Corporate,1,50000000
+Cobalt,Cobalt DL,Failed,System State/Economic Fitness,8.0,0.5,4,4,Market Competition,Corporate,1,47000000
+Contour,Former Voltron,Struggling,System State/Economic Fitness,8.0,0.5,4,4,Network Effects,Consortium,11,40000000
+Corda Settler,R3,Discontinued,System State/Execution Model,3.6,0.4,3,3,Integration Failure,Corporate,1,50000000
+Deutsche Börse D7,Deutsche Börse Group,Production,System State/Execution Model,3.6,0.4,3,3,Integration Success,Corporate,1,20000000
+Diem/Libra,Meta/Facebook,Failed,Law/Remedy,10.0,0.4,5,5,Regulatory Shutdown,Consortium,28,300000000
+Eastern Caribbean DCash,ECCB,Struggling,Network/Consensus,0.9,0.1,3,3,Technical Issues,Government,1,0
+European Central Bank Digital Euro,ECB,Investigation Phase,System State/Execution Model,3.6,0.4,3,3,Integration Planning,Government,1,0
+Energy Web Chain,Energy Web Foundation,Failed,System State/Economic Fitness,8.0,0.5,4,4,Network Effects Failure,Consortium,Multiple,50000000
+eTradeConnect,Hong Kong Banks,Limited Success,System State/Economic Fitness,8.0,0.5,4,4,Regional Limitation,Consortium,12,25000000
+e-Yuan/DCEP,PBoC,Production,Law/Remedy,10.0,0.4,5,5,Government Control,Government,1,0
+Federal Reserve Project Hamilton,Boston Fed/MIT,Research Complete,Network/Consensus,0.9,0.1,3,3,Research Success,Government,1,0
+Fnality,Bank Consortium,Delayed,Law/Liability & Licensing,2.7,0.3,3,3,Regulatory Delays,Consortium,20,100000000
+Walmart Food Trust,Walmart/IBM,Limited,System State/Execution Model,3.6,0.4,3,3,Integration Limited,Corporate,1,25000000
+Hong Kong e-HKD,Hong Kong Monetary Authority,Pilot Phase,System State/Execution Model,3.6,0.4,3,3,Pilot Testing,Government,1,0
+HSBC FX Everywhere,HSBC,Quietly abandoned,Network/Scalability,5.4,0.6,3,3,Performance Issues,Corporate,1,10000000
+India Digital Rupee,Reserve Bank of India,Pilot Expansion,System State/Execution Model,3.6,0.4,3,3,Pilot Success,Government,1,0
+Interbank Information Network,JPMorgan,Pivoted,System State/Economic Fitness,8.0,0.5,4,4,Limited Utility,Corporate,1,0
+Jamaica JAM-DEX,BoJ,Early Production,System State/Economic Fitness,8.0,0.5,4,4,Adoption Challenges,Government,1,0
+JPMorgan Onyx/JPM Coin,JPMorgan,Limited Production,System State/Execution Model,3.6,0.4,3,3,Controlled Success,Corporate,1,100000000
+KomGo,Commodity Trade,Failed,System State/Economic Fitness,8.0,0.5,4,4,Network Effects Failure,Consortium,15,15000000
+Kompass,Korea Customs,Active,System State/Execution Model,3.6,0.4,3,3,Government Success,Government,1,15000000
+Marco Polo,TradeIX/R3,Struggling,System State/Economic Fitness,8.0,0.5,4,4,Bank Exits,Consortium,Multiple,30000000
+MediLedger,Pharma Consortium,Limited,System State/Governance,17.2,0.86,5,4,Regulatory Complexity,Consortium,25,30000000
+Minehub,Minehub Technologies,Active,System State/Economic Fitness,8.0,0.5,4,4,Niche Success,Corporate,1,8000000
+NASDAQ Linq,NASDAQ,Discontinued,System State/Economic Fitness,8.0,0.5,4,4,Market Failure,Corporate,1,0
+Nigeria eNaira,Central Bank of Nigeria,Operational - Failed,System State/Economic Fitness,8.0,0.5,4,4,Adoption Failure,Government,1,0
+Origin,Target/Others,Discontinued,System State/Economic Fitness,8.0,0.5,4,4,Strategic Pivot,Corporate,1,5000000
+Partior,DBS/JPM/Temasek,Production,System State/Governance,17.2,0.86,5,4,Consortium Success,Consortium,3,0
+Project Aber,Saudi/UAE Central Banks,Pilot Complete,Network/Consensus,0.9,0.1,3,3,Research Success,Government,2,0
+Project Dunbar,BIS/4 Central Banks,Research Complete,Network/Consensus,0.9,0.1,3,3,Research Success,Government,4,0
+Project Jasper,Bank of Canada,Research Complete,Network/Consensus,0.9,0.1,3,3,Research Success,Government,1,0
+Project Khokha,South African Reserve Bank,Pilot Complete,Network/Consensus,0.9,0.1,3,3,Research Success,Government,1,2000000
+Project mBridge,BIS + Central Banks,Pilot Success,Network/Consensus,0.9,0.1,3,3,Research Success,Government,4,0
+Project Stella,ECB/BoJ,Research Complete,Network/Consensus,0.9,0.1,3,3,Research Success,Government,2,0
+Proxeus,Proxeus/Switzerland,Failed,System State/Economic Fitness,8.0,0.5,4,4,Adoption Failure,Government,1,25000000
+Saudi Arabia NEOM,NEOM Investment Fund,Development Phase,Law/Legal Form,3.6,0.3,4,3,Regulatory Unclear,Government,1,50000000
+SETL,SETL Development,Failed,System State/Economic Fitness,8.0,0.5,4,4,Market Penetration,Corporate,1,85000000
+Singapore Ubin+,Monetary Authority Singapore,Production Pilots,Network/Consensus,0.9,0.1,3,3,Research Success,Government,1,0
+SIX Digital Exchange,SIX Group,Production,System State/Execution Model,3.6,0.4,3,3,Corporate Success,Corporate,1,0
+Société Générale EUR CoinVertible,Société Générale,Production,Network/Scalability,5.4,0.6,3,3,Ethereum Dependencies,Corporate,1,0
+Swedish e-Krona,Riksbank,Pilot,System State/Economic Fitness,8.0,0.5,4,4,Adoption Challenge,Government,1,0
+SWIFT CBDC Connector,SWIFT,Beta Testing,System State/Execution Model,3.6,0.4,3,3,Multi-Platform,Consortium,38,0
+TBSx3,Mongolia Gov,Failed,Network/Scalability,5.4,0.6,3,3,Performance Failure,Government,1,3000000
+Thailand Retail CBDC,Bank of Thailand,Pilot Expansion,System State/Execution Model,3.6,0.4,3,3,Pilot Success,Government,1,0
+Trade Information Network,Multiple Singaporean Agencies,Merged/Abandoned,System State/Governance,17.2,0.86,5,4,Multi-Agency Failure,Government,Multiple,15000000
+TradeLens,IBM/Maersk,Failed,System State/Governance,17.2,0.86,5,4,Competitor Refusal,Corporate,2,250000000
+Tradelens (Hapag-Lloyd),Hapag-Lloyd,Shut down,System State/Economic Fitness,8.0,0.5,4,4,Parent Failure,Corporate,1,10000000
+Tradelens India,India Ports,Failed,System State/Economic Fitness,8.0,0.5,4,4,Network Dependency,Government,1,10000000
+Trust Your Supplier,IBM/Chainyard,Limited Success,System State/Economic Fitness,8.0,0.5,4,4,Limited Adoption,Corporate,1,15000000
+Vakt,Oil Trading,Struggling,System State/Governance,17.2,0.86,5,4,Consortium Struggle,Consortium,9,60000000
+Venezuela Petro,Venezuelan Gov,Failed,Law/Remedy,10.0,0.4,5,5,Sanctions/Fraud,Government,1,6000000000
+Digital Trade Chain,Deutsche Bank/Others,Failed,System State/Governance,17.2,0.86,5,4,Consortium Evolution,Consortium,Multiple,8000000
+Yojee,Yojee Limited,Struggling,System State/Execution Model,3.6,0.4,3,3,Integration Minimal,Corporate,1,20000000

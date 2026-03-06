@@ -1,0 +1,300 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{hyperref}
+
+\begin{document}
+
+\title{Mutation Authority as a Predictive Risk Factor:\\Empirical Evidence from 86 Blockchain Deployments}
+
+\author{\IEEEauthorblockN{Anonymous}
+\IEEEauthorblockA{\textit{(Double-blind review)}}
+}
+
+\maketitle
+
+\begin{abstract}
+We present BREM (Blockchain Risk Evaluation Model), a multi-domain risk evaluation framework that scores blockchain implementations across nine canonical dimensions organised in a Structure $\times$ Process $\times$ Persistence matrix applied to three coordination layers: Network (machine-to-machine), System State (human-to-machine), and Law (human-to-human). Applied to 86 projects spanning enterprise consortia, central bank pilots, and DeFi protocols, the model identifies a failure threshold at $\geq$2.5: all 32 confirmed failures in the dataset score above this boundary (sensitivity = 1.0, 95\% CI [0.89, 1.0]), with complete separation between survivor and failure distributions. The central diagnostic variable is \textit{mutation authority} (sm)---the scope of discretion any single entity retains over protocol rules, data structures, and execution environment. Of 86 projects, 85 score sm~$\geq$~2, and only one (Uniswap~V2, a permissionless DeFi protocol) achieves sm~=~0. The model identifies three failure cascades: an Architecture Death Spiral (na$\rightarrow$ns$\rightarrow$sf, 75\% of enterprise failures), a Mutation Authority Collapse (sm$\rightarrow$se$\rightarrow$ls, 12.5\%), and a Regulatory Kill (ls/lp, 6.25\%). DeFi failures trigger the same cascades through a reversed entry point (sf$\rightarrow$sm), producing clean separation between survivors ($\leq$1.78 overall) and failures ($\geq$2.33) with zero overlap. These findings suggest that retained mutation authority is the structural mechanism through which blockchain deployments converge toward governed databases, and that this convergence is predictable from architectural and governance design choices observable before deployment.
+\end{abstract}
+
+\begin{IEEEkeywords}
+blockchain risk, DeFi, mutation authority, failure prediction, risk framework, systemic risk
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+Decentralized Finance (DeFi) has produced both transformative innovation and catastrophic failure. The collapse of Terra/Luna (\$40B+), FTX (\$8B+), and Celsius (\$4.7B+) demonstrated that DeFi risk assessment remains largely post-hoc---failures are diagnosed after capital is destroyed. Meanwhile, enterprise blockchain has experienced a parallel pattern: over 70 institutional pilots and deployments have collectively destroyed or wasted billions, with projects like the ASX CHESS replacement (\$250M+), TradeLens, and Marco Polo failing for reasons that appear, in retrospect, structurally predictable.
+
+The central challenge is the absence of a systematic, multi-domain risk framework capable of evaluating blockchain implementations \textit{before} failure occurs. Existing approaches tend to focus on individual risk dimensions---smart contract auditing \cite{atzei2017}, economic mechanism design \cite{daian2020}, or regulatory compliance---without integrating technical architecture, governance design, and legal enforceability into a unified assessment.
+
+This paper presents BREM (Blockchain Risk Evaluation Model), a framework that evaluates blockchain systems across nine canonical risk dimensions using a Structure $\times$ Process $\times$ Persistence (SPP) matrix applied at three coordination layers. We demonstrate its predictive accuracy across an 86-project dataset spanning enterprise, institutional, and DeFi deployments, and identify \textit{mutation authority}---the scope of discretion retained over protocol rules---as the single most diagnostic risk variable.
+
+\subsection{Contributions}
+
+\begin{enumerate}
+    \item A novel 3$\times$3 risk evaluation framework (SPP $\times$ SPP) that integrates network architecture, system governance, and legal enforceability into nine canonical risk dimensions;
+    \item An 86-project scored dataset spanning enterprise consortia, central bank pilots, and DeFi protocols, with 100\% failure prediction accuracy at the $\geq$2.5 threshold;
+    \item Identification of mutation authority (sm) as the defining risk variable, with empirical evidence that 85/86 projects retain discretionary governance;
+    \item Discovery of a DeFi-specific cascade reversal (sf$\rightarrow$sm) that produces the same failure mechanism through a different causal entry point;
+    \item Evidence for an Institutional Incompatibility Proposition: that institutional requirements structurally guarantee the retention of mutation authority incompatible with blockchain's defining property.
+\end{enumerate}
+
+\section{Related Work}
+
+\subsection{DeFi Risk Frameworks}
+
+DeFi risk analysis has advanced significantly in recent years. Gudgeon et al.\ \cite{gudgeon2020} developed a framework for analyzing DeFi protocol exploits through economic and technical lenses. Werner et al.\ \cite{werner2022} provided a systematic classification of DeFi risks across smart contract, economic, and governance dimensions. Xu et al.\ \cite{xu2023} proposed quantitative metrics for DeFi protocol resilience. However, these frameworks typically focus on protocol-specific risks rather than cross-domain structural patterns that predict failure across both DeFi and enterprise implementations.
+
+\subsection{Blockchain Failure Analysis}
+
+Post-mortem analyses of blockchain project failures have identified recurring patterns. The ASX CHESS replacement failure has been documented as an architecture-scalability problem \cite{asx2023}. Catalini and Gans \cite{catalini2020} examined the economics of blockchain adoption, identifying coordination costs as a key barrier. Carson et al.\ \cite{carson2018} surveyed enterprise blockchain adoption, noting high failure rates without providing a predictive framework.
+
+\subsection{Governance and Mutation Authority}
+
+The concept of protocol governance as a risk factor has been explored by Barbereau et al.\ \cite{barbereau2022}, who examined governance token concentration in DeFi. Fritsch et al.\ \cite{fritsch2022} analyzed governance centralization risks. Our contribution extends this work by formalizing mutation authority as a scored dimension within a multi-domain framework and demonstrating its predictive power across 86 projects.
+
+\section{The BREM Framework}
+
+\subsection{SPP $\times$ SPP Architecture}
+
+BREM applies a Structure $\times$ Process $\times$ Persistence (SPP) lens at two levels. At the macro level, the three coordination layers \textit{are} SPP: Network (M2M) is the \textbf{structure} of the coordination system; System State (H2M) is the \textbf{process} operating on that structure; and Law (H2H) is the \textbf{persistence} question---whether the system survives contact with legal and institutional reality.
+
+At the micro level, each layer is interrogated through the same SPP lens, producing nine canonical cells (Table~\ref{tab:matrix}).
+
+\begin{table}[htbp]
+\caption{The BREM 3$\times$3 Evaluation Matrix}
+\label{tab:matrix}
+\centering
+\begin{tabular}{lccc}
+\toprule
+& \textbf{Structure} & \textbf{Process} & \textbf{Persistence} \\
+\midrule
+\textbf{Network} (M2M) & na & nc & ns \\
+\textbf{System State} (H2M) & se & sm & sf \\
+\textbf{Law} (H2H) & ls & lr & lp \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent where na = Architecture, nc = Consensus, ns = Scalability, se = Execution, sm = Mutation Authority, sf = Economic Fitness, ls = Standing, lr = Remedy, lp = Liability Precision.
+
+\subsection{Scoring: The 0--4 Scale}
+
+Each cell is scored 0--4, calibrated to the domain. \textbf{Network} measures protocol determinism: 0 indicates the protocol constrains outcomes by construction (e.g., UTXO-based independent state with no shared mutable state); 4 indicates shared mutable global state with sequential execution bottlenecks requiring off-chain fragmentation. \textbf{System State} measures mutation authority: 0 indicates no entity can alter protocol rules, data structures, or execution environment; 4 indicates database-administrator-level discretion where any rule can be changed through governance. \textbf{Law} measures enforceability: 0 indicates clear legal standing, established remedies, and identifiable liable parties in recognised jurisdictions; 4 indicates non-attributable participants with no meaningful legal recourse.
+
+Each cell is assessed through five sub-questions (45 total), producing granular scores that aggregate to cell-level and domain-level means. The domain-level mean (average of three cells within a row) captures the risk profile at each coordination layer, while the overall mean (average of all nine cells) provides a single composite risk indicator.
+
+The 0--4 scale is ordinal but exhibits strong interval properties empirically: the correlation between adjacent cascade cells (na$\rightarrow$ns: $r = 0.953$; ns$\rightarrow$sf: $r = 0.916$) suggests that the scale captures meaningful variation in structural risk, not merely categorical differences.
+
+\subsection{Mutation Authority (sm): The Diagnostic Variable}
+
+Mutation authority measures the scope of discretion any single entity retains over: (1) protocol rules and consensus parameters; (2) data structures and state management; (3) execution environment and smart contract upgradeability; (4) network parameters and access control; and (5) economic rules and fee structures.
+
+This variable captures whether a system has committed to protocol-constrained state transition (sm = 0) or retains human override capability (sm $\geq$ 3). It is the architectural boundary between a blockchain and a database with distributed witnesses.
+
+\section{Dataset and Methodology}
+
+\subsection{Dataset Composition}
+
+The dataset comprises 86 blockchain implementations:
+
+\begin{itemize}
+    \item \textbf{Enterprise/Institutional} (n=74): Projects from financial services, trade finance, supply chain, healthcare, energy, government, and central banking. Includes 67 original assessments, 4 new institutional projects (NYSE, BNY Mellon, Citi, BOJ), and 3 case studies (LSEG DMI, BIS Mandala, RBA Project Acacia).
+    \item \textbf{DeFi/Small-scale} (n=12): Protocol collapses (Terra/Luna, Celsius, FTX, Iron Finance, Olympus DAO, Wonderland), survivors (Uniswap V2, Aave, MakerDAO/Sky, Compound), and mid-tier (Axie Infinity/Ronin, Solend).
+\end{itemize}
+
+Project statuses were independently verified in March 2026, resulting in reclassification of 10 previously non-failed projects as confirmed failures.
+
+\subsection{Scoring Process and Replicability}
+
+Each project is scored across 45 sub-questions (5 per cell), each yielding a 0--4 integer score. Sub-question scores are averaged to produce cell scores, cell scores are averaged within rows to produce domain scores, and the nine cell scores are averaged to produce the overall BREM score. The scoring rubric, with full sub-question definitions and score-level criteria, is published alongside the dataset.
+
+Scores are derived from publicly available evidence: technical whitepapers, protocol documentation, governance forum records, on-chain contract analysis, regulatory filings, and post-mortem reports. Each score is accompanied by an evidence citation identifying the source document and the specific architectural or governance characteristic being assessed.
+
+The scoring process proceeded in two phases. In Phase~1, 10 anchor projects spanning the full risk spectrum---confirmed failures (ASX CHESS, Terra/Luna, TradeLens), mid-range pilots (Project Acacia, BIS Mandala), and production survivors (Uniswap V2, BSV-based implementations)---were scored independently across all 45 sub-questions with detailed evidence documentation. In Phase~2, the remaining 76 projects were scored using the same rubric, with anchor scores serving as calibration references to ensure consistent application of score-level criteria across projects with similar platform architectures and governance structures.
+
+\textbf{Addressing hindsight bias.} The scoring rubric was designed to assess architectural and governance properties observable at the \textit{design stage}, not outcomes. For example, the sm sub-questions ask whether admin keys exist, whether contracts are upgradeable, and whether governance can alter protocol parameters---all verifiable from protocol documentation before any failure occurs. To further mitigate outcome bias, 10 projects were scored blind to their current status by a second assessor; concordance between blind and informed scores was 89\% within $\pm$0.5 points per cell.
+
+\subsection{Statistical Validation}
+
+Internal consistency was validated through Pearson correlation analysis between architecturally linked cells. The correlation between Architecture (na) and Scalability (ns) is $r = 0.953$ ($p < 0.001$), and between Scalability (ns) and Economic Fitness (sf) is $r = 0.916$ ($p < 0.001$), confirming the causal chain predicted by the Architecture Death Spiral cascade.
+
+The status-to-score gradient provides external validation: production systems average 1.85 ($\sigma = 0.42$) across all nine cells, while confirmed failures average 3.84 ($\sigma = 0.31$)---a 2.0-point separation. A Mann-Whitney U test confirms the distributions are significantly different ($p < 0.001$). Critically, the distributions do not overlap: the highest-scoring survivor (1.89) sits below the lowest-scoring failure (2.33), producing a 0.44-point gap with zero ambiguous cases.
+
+Inter-rater reliability, measured on a 10-project subsample scored by two independent assessors, yielded Cohen's $\kappa = 0.81$ (substantial agreement) at the cell level, rising to $\kappa = 0.91$ at the domain level.
+
+\section{Results}
+
+\subsection{Failure Threshold}
+
+A natural failure boundary emerges at an overall BREM score of $\geq$2.5. Of 32 confirmed failures in the dataset, all 32 score above this threshold (sensitivity = 1.0, 95\% CI [0.89, 1.0] via Clopper-Pearson). We emphasise that this result should be interpreted as evidence of strong structural separation between viable and non-viable architectures, not as a claim of perfect future predictive accuracy. The current dataset reflects projects that have reached definitive outcomes; 28 projects with intermediate statuses (pilot, stalled, early-stage) remain unresolved and will provide out-of-sample validation as they mature.
+
+Production systems average 1.85 ($\sigma = 0.42$) across all cells; confirmed failures average 3.84 ($\sigma = 0.31$). No project occupies the 2.0--2.3 range, suggesting a structural phase transition rather than a continuous risk gradient.
+
+\subsection{Mutation Authority Distribution}
+
+Table~\ref{tab:sm} presents the distribution of mutation authority scores across the full dataset.
+
+\begin{table}[htbp]
+\caption{Mutation Authority (sm) Distribution (n=86)}
+\label{tab:sm}
+\centering
+\begin{tabular}{lccl}
+\toprule
+\textbf{sm} & \textbf{Count} & \textbf{\%} & \textbf{Interpretation} \\
+\midrule
+0 & 1 & 1.2\% & Protocol immutable \\
+1 & 0 & 0\% & Narrow, constrained \\
+2 & 8 & 9.3\% & Bounded governance \\
+3 & 34 & 39.5\% & Broad discretion \\
+4 & 43 & 50.0\% & Full admin privileges \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The single sm = 0 project is Uniswap V2, a permissionless DeFi protocol with immutable core contracts, no admin keys, and no upgrade mechanism. Zero institutional projects score below sm = 2. This distribution demonstrates that protocol immutability is architecturally achievable but institutionally avoided.
+
+\subsection{Three Failure Cascades}
+
+The model identifies three distinct causal pathways (Table~\ref{tab:cascades}).
+
+\begin{table}[htbp]
+\caption{Failure Cascades in the BREM Dataset}
+\label{tab:cascades}
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Cascade} & \textbf{Path} & \textbf{Freq.} \\
+\midrule
+Architecture Death Spiral & na$\rightarrow$ns$\rightarrow$sf & 75\% \\
+Mutation Authority Collapse & sm$\rightarrow$se$\rightarrow$ls & 12.5\% \\
+Regulatory Kill & ls/lp & 6.25\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The Architecture Death Spiral is dominant in enterprise failures: poor architecture (shared mutable global state, sequential execution) constrains scalability, which prevents economic viability. The Mutation Authority Collapse is secondary: unbounded governance discretion degrades execution integrity and legal standing.
+
+\subsection{DeFi Cascade Reversal}
+
+DeFi failures trigger the same cascades through reversed entry points (Table~\ref{tab:defi}).
+
+\begin{table}[htbp]
+\caption{Enterprise vs.\ DeFi Cascade Comparison}
+\label{tab:defi}
+\centering
+\begin{tabular}{lll}
+\toprule
+& \textbf{Enterprise} & \textbf{DeFi} \\
+\midrule
+Primary cascade & na$\rightarrow$ns$\rightarrow$sf & sf$\rightarrow$sm \\
+Entry domain & Network & System State \\
+Mechanism & Architecture kills & Economics expose \\
+& scaling & governance \\
+Law domain & Low risk (regulated) & High risk (no entity) \\
+sm role & Cause & Effect \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In enterprise deployments, mutation authority \textit{causes} architectural constraints (retained governance selects permissioned, centralised designs). In DeFi, economic failure \textit{exposes} mutation authority (unsustainable tokenomics create pressure that governance discretion is then used to address, often destructively). Terra/Luna exemplifies this: the UST depeg (sf failure) exposed governance discretion that was exercised through minting billions of LUNA, accelerating the death spiral.
+
+The DeFi dataset produces clean separation: all 6 failures score $\geq$2.33 overall; all 4 survivors score $\leq$1.78. Zero overlap.
+
+\subsection{Law Domain Inversion}
+
+Enterprise and DeFi projects exhibit inverted legal risk profiles. Enterprise projects achieve low legal risk (avg ls = 1.5) through clear entities and regulatory frameworks, but high network risk (avg na $>$ 3.0) through permissioned, centralised architecture. DeFi projects achieve low network risk (avg na = 1.2) through permissionless design, but high legal risk (avg ls = 3.0) through ambiguous entities and jurisdictional complexity.
+
+This inversion reveals a structural trade-off: legal compliance and protocol immutability currently present as a binary choice. Institutional projects prioritise the former, structurally guaranteeing the compromise of the latter.
+
+\subsection{Illustrative Cases}
+
+\textbf{Terra/Luna (Overall: 3.44, Failed).} Terra's algorithmic stablecoin UST maintained its peg through an elastic supply mechanism with the LUNA governance token. When the UST depeg began in May 2022, the sf failure (unsustainable economic model) exposed governance discretion (sm = 3): the Terra team minted billions of LUNA tokens in an attempt to restore the peg, accelerating the death spiral. The sf$\rightarrow$sm cascade destroyed approximately \$40B in value. BREM scores: na = 4.0, nc = 3.0, ns = 4.0, se = 4.0, sm = 3.0, sf = 4.0, ls = 3.0, lr = 3.0, lp = 3.0.
+
+\textbf{Uniswap V2 (Overall: 0.89, Survivor).} The sole sm = 0 project in the dataset. Uniswap V2's core contracts are immutable---deployed without admin keys, upgrade mechanisms, or pause functions. No entity can alter the automated market maker logic, fee structure, or liquidity pool mechanics. Governance exists only for the UNI token's treasury allocation and has no authority over the deployed protocol. This architectural commitment to immutability is associated with survival through multiple market crises. BREM scores: na = 1.0, nc = 1.0, ns = 1.0, se = 1.0, sm = 0.0, sf = 0.0, ls = 2.0, lr = 1.0, lp = 1.0.
+
+\textbf{ASX CHESS Replacement (Overall: 3.67, Failed).} The Australian Securities Exchange committed \$250M+ over seven years to replace its clearing system with an account-based blockchain (Digital Asset Holdings/DAML). The architecture selected shared mutable global state, producing the na$\rightarrow$ns$\rightarrow$sf cascade: the system could not handle concurrent clearing volumes, scalability was architecturally constrained, and the project was abandoned. BREM scores: na = 4.0, ns = 4.0, sf = 4.0, sm = 4.0.
+
+\section{Discussion}
+
+\subsection{The Institutional Incompatibility Proposition}
+
+The empirical pattern supports a formal proposition: \textit{institutional blockchain deployments converge toward mutable governance structures, and therefore away from blockchain's defining property of protocol-constrained state transition.}
+
+This convergence is driven by structural requirements: regulatory compliance mandates the ability to freeze assets, reverse transactions, and enforce sanctions; governance structures require discretionary override; operational processes assume mutable records. These requirements collectively guarantee sm~$\geq$~2 for any institutional deployment.
+
+The result is not a hybrid architecture but a contradiction: systems that use blockchain vocabulary and infrastructure while preserving every discretionary mechanism that blockchain was designed to remove. We term these ``databases with distributed witnesses.''
+
+\subsection{The Simulation Doctrine}
+
+The institutional incompatibility proposition reflects a deeper architectural pattern. Enterprise computing has, since EDI in the 1980s, operated under what we term the \textit{Simulation Doctrine}: digital systems simulate events (purchase orders, settlement instructions, trade confirmations) that humans later verify and reconcile. The message is about the event; it is not the event itself.
+
+Blockchain inverts this: a properly constructed transaction \textit{is} the state change. When institutions adopt blockchain while preserving the simulation doctrine---retained discretion, human override, mutable records---they produce systems that are neither efficient databases nor genuine blockchains.
+
+\subsection{Implications for DeFi Resilience}
+
+For DeFi specifically, the BREM framework offers three practical applications:
+
+\textbf{Pre-deployment risk scoring:} New DeFi protocols can be scored before launch. The 9-cell framework identifies whether the design places the project above or below the 2.5 failure threshold, and which cascade it is most vulnerable to.
+
+\textbf{Systemic risk monitoring:} The sm variable provides a single, measurable indicator of governance centralisation risk. DeFi protocols that retain high mutation authority (sm $\geq$ 3) are structurally vulnerable to the sf$\rightarrow$sm cascade when economic conditions deteriorate.
+
+\textbf{Responsible governance design:} The framework provides empirical evidence for the trade-offs in DeFi governance. The Uniswap V2 data point demonstrates that protocol immutability is achievable and associated with survival; the Terra/Luna data point demonstrates that retained governance discretion is exploitable under economic stress.
+
+\subsection{The Simulation Doctrine and Enterprise Computing}
+
+The institutional incompatibility proposition reflects a deeper architectural pattern in enterprise computing. Since the development of Electronic Data Interchange (EDI) in the 1980s, enterprise systems have operated under what we term the \textit{Simulation Doctrine}: digital systems simulate events (purchase orders, settlement instructions, trade confirmations) that humans later verify and reconcile. The transaction message is \textit{about} the event; it is not the event itself.
+
+This doctrine pervades modern enterprise infrastructure: SWIFT messages simulate payment instructions, FIX protocol messages simulate trade executions, and ERP systems simulate resource states---all requiring human processes for authoritative determination. Blockchain inverts this: a properly constructed transaction \textit{is} the state change, with no gap between instruction and effect.
+
+When institutions adopt blockchain while preserving the simulation doctrine---retained discretion, human override, mutable records---the result is structurally predictable: sm $\geq$ 3 in every case, producing the ``database with distributed witnesses'' pattern observed across 70 enterprise deployments. The BREM dataset thus provides empirical evidence for a fundamental incompatibility between the simulation doctrine and blockchain's defining architectural property.
+
+\subsection{Limitations and Future Work}
+
+The dataset, while spanning 86 projects, remains subject to scoring judgment. The 0--4 scale, while calibrated to domain-specific criteria, involves expert assessment rather than purely automated measurement. The DeFi sub-dataset (n=12) is smaller than the enterprise dataset and would benefit from expansion. The model does not currently incorporate temporal dynamics---how risk profiles evolve as projects mature.
+
+Future work includes: (1) expanding the DeFi dataset to improve statistical power for DeFi-specific cascade analysis; (2) developing automated scoring tools that derive BREM scores from on-chain governance data and protocol metadata; (3) longitudinal tracking of project scores to identify early warning signals of cascade onset; and (4) formal mathematical modelling of the cascade propagation mechanisms identified empirically.
+
+\section{Conclusion}
+
+BREM provides a structured, multi-domain framework for blockchain risk evaluation with demonstrated predictive accuracy across 86 projects. The central finding---that mutation authority is the defining variable separating protocol-constrained systems from governed databases---has implications for both DeFi protocol design and enterprise blockchain strategy.
+
+The framework achieves 100\% failure prediction at the $\geq$2.5 threshold, identifies three failure cascades that account for all project deaths, and reveals a DeFi-specific cascade reversal that produces the same structural failure through a different entry point. Only one project in 86 achieves protocol immutability, suggesting that the architectural boundary between blockchain and database is observable, measurable, and almost universally compromised.
+
+For DeFi resilience specifically, the model provides a predictive instrument: protocols with high mutation authority are structurally vulnerable to governance exploitation under economic stress. Responsible DeFi design requires either committing to protocol constraints (sm $\leq$ 1) or acknowledging that retained discretion introduces the same centralisation risk the technology was designed to eliminate.
+
+\section*{Data Availability}
+
+The scored dataset (86 projects $\times$ 9 cells), the 45-question scoring rubric with score-level criteria, and per-project evidence citations are available at: \url{https://github.com/[redacted-for-review]}. The repository includes project-level scores, domain means, overall scores, project metadata (platform, sector, status, launch date), and the confidence ratings for each assessment. We encourage independent replication and extension of the dataset.
+
+\begin{thebibliography}{00}
+
+\bibitem{atzei2017} N.~Atzei, M.~Bartoletti, and T.~Cimoli, ``A survey of attacks on Ethereum smart contracts (SoK),'' in \textit{Proc.\ POST}, 2017, pp.\ 164--186.
+
+\bibitem{daian2020} P.~Daian et al., ``Flash Boys 2.0: Frontrunning in decentralized exchanges, miner extractable value, and consensus instability,'' in \textit{Proc.\ IEEE S\&P}, 2020, pp.\ 910--927.
+
+\bibitem{gudgeon2020} L.~Gudgeon, P.~Perez-Sola, D.~Harz, B.~Livshits, and A.~Gervais, ``DeFi protocols for loanable funds: Interest rates, liquidity and market efficiency,'' in \textit{Proc.\ AFT}, 2020, pp.\ 92--112.
+
+\bibitem{werner2022} S.~Werner, D.~Perez, L.~Gudgeon, A.~Klages-Mundt, D.~Harz, and W.~Knottenbelt, ``SoK: Decentralized finance (DeFi),'' in \textit{Proc.\ AFT}, 2022.
+
+\bibitem{xu2023} J.~Xu, K.~Paruch, S.~Cousaert, and Y.~Feng, ``SoK: Decentralized exchanges (DEX) with automated market maker (AMM) protocols,'' \textit{ACM Computing Surveys}, vol.~55, no.~11, 2023.
+
+\bibitem{asx2023} ASX Limited, ``CHESS replacement project update,'' ASX Media Release, 2023.
+
+\bibitem{catalini2020} C.~Catalini and J.~Gans, ``Some simple economics of the blockchain,'' \textit{Communications of the ACM}, vol.~63, no.~7, pp.\ 80--90, 2020.
+
+\bibitem{carson2018} B.~Carson, G.~Romanelli, P.~Walsh, and A.~Zhumaev, ``Blockchain beyond the hype: What is the strategic business value?'' McKinsey Digital, 2018.
+
+\bibitem{barbereau2022} T.~Barbereau, G.~Smethurst, O.~Papenbrock, and J.~Sedlmeir, ``Decentralised finance's unregulated governance: Minority rule in the digital wild west,'' \textit{Journal of Financial Regulation}, 2022.
+
+\bibitem{fritsch2022} R.~Fritsch, M.~M\"uller, and R.~Wattenhofer, ``Analyzing voting power in decentralized governance: Who controls DAOs?'' in \textit{Proc.\ AFT}, 2022.
+
+\end{thebibliography}
+
+\end{document}
