@@ -1,46 +1,21 @@
 # BREM — Blockchain Risk Evaluation Model
 
-A quantitative risk scoring framework for blockchain implementations, tested across 86 projects spanning enterprise consortia, central bank pilots, and DeFi protocols.
+A quantitative risk scoring framework for blockchain implementations, evaluated across 83 projects spanning enterprise consortia, central bank pilots, and DeFi protocols.
 
 ## Key Findings
 
-- **86 projects scored** across nine canonical risk dimensions using the SPP × SPP framework
-- **100% failure prediction** at the ≥2.5 overall risk threshold (sensitivity = 1.0, 95% CI [0.89, 1.0])
-- **Three failure cascades** account for every project failure in the dataset
-- **85 of 86 projects** retain mutation authority sufficient to override protocol constraints
-- **$60B+** in tracked value destroyed across failed projects
+- **83 projects scored** (71 enterprise, 12 DeFi) across nine canonical risk dimensions using the SPP × SPP framework
+- **92.5% sensitivity** at the ≥2.5 overall risk threshold (F1 = 0.902)
+- **100% specificity among resolved projects** — every project above threshold has failed or is in sustained distress
+- **Mutation authority (sm)** is the strongest single predictor: zero projects with sm ≤ 2 have failed
+- **Three failure cascades** account for the majority of project failures
 
-## The Simulation Doctrine
-
-Enterprise computing operates under what BREM identifies as the *Simulation Doctrine*: digital systems simulate events (purchase orders, settlement instructions, trade confirmations) that humans later verify and reconcile. Blockchain inverts this — a transaction *is* the state change, not a message about one.
-
-When institutions adopt blockchain, they preserve the simulation doctrine. The result is architecturally indistinguishable from a database with distributed witnesses. The dataset proves this empirically.
-
-## Repository Structure
-
-```
-├── data/                          # Dataset and scoring materials
-│   ├── brap-v2-spf-auto-scored.csv          # Full 86-project scored dataset
-│   ├── brap-v2-unified-dataset-cleaned.csv  # Cleaned unified dataset
-│   ├── blockchain-implementations-canonical-scores.csv
-│   ├── brap-v2-scoring-rubric.md            # Scoring rubric (0-4 scale, 9 dimensions)
-│   └── dataset-metadata.json
-├── paper/                         # IEEE ICBC 2026 workshop paper
-│   ├── src/
-│   │   ├── brem-ieee-paper.tex              # LaTeX source
-│   │   └── IEEEtran.cls                     # IEEE class file
-│   └── BREM-IEEE-Paper-Draft.pdf            # Compiled PDF
-├── docs/                          # Supporting documents
-│   ├── BREM-SPP-Framework.pdf               # Full whitepaper (22 pages)
-│   └── BREM-Simulation-Doctrine-One-Pager.pdf  # One-page thesis
-└── README.md
-```
-
-## BREM Framework: SPP × SPP
+## The SPP × SPP Framework
 
 BREM organises blockchain risk into a 3×3 matrix using the Structure–Process–Persistence (SPP) pattern applied twice:
 
 **Vertically** (rows = SPP):
+
 | Domain | SPP Role | Description |
 |--------|----------|-------------|
 | Network | Structure | The architectural substrate |
@@ -48,44 +23,65 @@ BREM organises blockchain risk into a 3×3 matrix using the Structure–Process�
 | Law | Persistence | Legal enforceability in the real world |
 
 **Horizontally** (columns within each row):
+
 | | Structure | Process | Persistence |
 |---|-----------|---------|-------------|
 | **Network** | Architecture (na) | Consensus (nc) | Scalability (ns) |
 | **System State** | Execution (se) | Mutation Authority (sm) | Economic Fitness (sf) |
 | **Law** | Standing (ls) | Remedy (lr) | Liability (lp) |
 
-Each cell is scored 0–4 (increasing risk). The **mutation authority (sm)** variable is the single strongest predictor of project failure.
+Each cell is scored 0–4 (increasing risk). See [CODEBOOK.md](data/CODEBOOK.md) for full scoring definitions.
 
-## Scoring Scale
+## Repository Structure
 
-| Score | Meaning |
-|-------|---------|
-| 0 | Negligible risk — protocol-constrained |
-| 1 | Low risk — minimal discretion |
-| 2 | Moderate risk — some centralised control |
-| 3 | High risk — significant mutation authority |
-| 4 | Critical risk — fully centralised control |
+```
+├── data/
+│   ├── brem-dataset-v3.csv          # Full 83-project scored dataset
+│   ├── CODEBOOK.md                  # Dataset documentation and methodology
+│   └── scoring-rubric.md            # Detailed scoring rubric (0-4 scale)
+├── paper/
+│   ├── src/
+│   │   ├── brem-ieee-paper.tex      # LaTeX source (IEEEtran format)
+│   │   └── IEEEtran.cls            # IEEE class file
+│   └── BREM-IEEE-Paper-Draft.pdf    # Compiled PDF
+├── docs/
+│   └── (supporting documents)
+└── README.md
+```
 
-## Three Failure Cascades
+## Threshold Performance
 
-1. **Architecture Death Spiral** (na→ns→sf): Network design flaws compound through scalability into economic collapse. 75% of failures.
-2. **Mutation Authority Collapse** (sm→se→ls): Centralised control enables execution manipulation, destroying legal standing. 12.5% of failures.
-3. **Regulatory Kill** (ls/lp): External legal action terminates the project. 6.25% of failures.
+| Metric | Full Dataset (n=83) | Resolved Only (n=62) |
+|--------|---------------------|----------------------|
+| Sensitivity | 92.5% | 92.5% |
+| Specificity | 88.4% | 100.0% |
+| Precision | 88.1% | 100.0% |
+| F1 Score | 0.902 | 0.961 |
+
+The 5 "false positives" in the full dataset are all unresolved projects (pilots, development phase) — these are predictions, not errors. The 3 false negatives among resolved projects (HSBC FX Everywhere, NASDAQ Linq, SETL) had sound architecture but failed commercially; the model captures systemic coordination risk better than pure market failure.
+
+## Mutation Authority Distribution
+
+| sm Score | Projects | Failed | Failure Rate |
+|----------|----------|--------|-------------|
+| 0 | 1 | 0 | 0% |
+| 2 | 6 | 0 | 0% |
+| 3 | 42 | 15 | 35.7% |
+| 4 | 34 | 25 | 73.5% |
+
+The only project with sm = 0 is Uniswap V2/V3 — protocol-immutable with zero admin keys.
 
 ## Citation
 
-If using this dataset or framework, please cite:
-
 ```
 Price, T. (2026). Mutation Authority as a Predictive Risk Factor:
-Empirical Evidence from 86 Blockchain Deployments. IEEE ICBC 2026
+Empirical Evidence from 83 Blockchain Deployments. IEEE ICBC 2026
 AI-R2D2 Workshop. [Submitted]
 ```
 
 ## Author
 
 **Todd Price** — Real Blockchain Solutions
-- Email: todd.price.aus@gmail.com
 
 ## License
 
