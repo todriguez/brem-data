@@ -28,10 +28,17 @@ This dataset contains risk scores for 83 blockchain projects (71 enterprise, 12 
 | `category` | String | Primary use case category (e.g., CBDC, Trade Finance, Lending Protocol) |
 | `region` | String | Primary geographic region |
 | `platform` | String | Underlying technology platform |
+| `permission_model` | Categorical | `permissioned`, `permissionless`, `hybrid`, `custodial`, or `TBD` |
+| `consensus_family` | String | Consensus mechanism family (e.g., PoS, PoA, BFT, custom, N/A) |
+| `architecture_type` | String | Architecture classification (e.g., public chain, private chain, sidechain, custodial, middleware) |
 | `governance_type` | String | Governance structure (e.g., Single entity, Consortium, DAO governance, Immutable contracts) |
+| `consortium_size` | Categorical | Number of core participants: `1`, `2-5`, `6-20`, `20+`, or `N/A` (for permissionless) |
+| `has_native_token` | String | Whether the project has a native token and its type (e.g., "yes (CBDC)", "yes (governance token)", "no") |
 | `launch_year` | Integer/blank | Year the project launched or began pilots |
 | `end_year` | Integer/blank | Year the project ended (blank if ongoing) |
+| `failure_year` | Integer/blank | Year the project failed (blank if not failed or still operating) |
 | `investment_usd` | String | Known investment amount in USD (blank or "Undisclosed" if unavailable) |
+| `value_at_risk_usd` | String | Approximate value at risk — investment, TVL, market cap, or frozen funds as applicable |
 
 ### Outcome
 
@@ -106,6 +113,7 @@ All scores are integers on a 0–4 scale:
 |--------|------|-------------|
 | `scoring_method` | Categorical | `expert-scored` (hand-scored by domain expert) or `systematic-with-review` (systematic assessment based on project documentation, subsequently reviewed) |
 | `evidence_summary` | String | Brief justification for scores referencing project-specific evidence |
+| `primary_data_sources` | String | Sources used to inform scoring (e.g., annual reports, regulatory filings, on-chain data, court documents) |
 
 ---
 
