@@ -250,7 +250,15 @@ Enterprise computing has, since EDI in the 1980s, operated under what we term th
 
 \subsection{Implications for DeFi Resilience}
 
-For DeFi, the BREM framework offers three practical applications. First, \textbf{pre-deployment risk scoring}: new protocols can be evaluated against the 9-cell framework before launch to identify whether the design places the project above or below the 2.5 failure threshold. Second, \textbf{systemic risk monitoring}: sm provides a measurable indicator of governance centralization; protocols with sm $\geq$ 3 are structurally vulnerable to the sf$\rightarrow$sm cascade when economic conditions deteriorate. Third, \textbf{responsible governance design}: the framework provides empirical evidence that protocol immutability is achievable (Uniswap V2) and that retained discretion is exploitable under economic stress (Terra/Luna).
+The BREM framework is designed as a practical instrument. A risk analyst, protocol designer, or regulator can score a new or existing protocol across the nine cells using the published rubric, producing a risk profile in under an hour. This makes several DeFi risk management applications immediately viable:
+
+\textbf{Predictive risk scoring.} New protocols can be evaluated against the 9-cell matrix before launch. The scoring rubric assesses architectural properties observable at design time---admin key presence, contract upgradeability, consensus mechanism, economic model sustainability---producing a composite score that locates the project relative to the 2.5 failure threshold. This provides a structured alternative to ad-hoc due diligence.
+
+\textbf{Systemic risk monitoring.} The sm variable provides a single, measurable indicator of governance centralization risk. Protocols with sm $\geq$ 3 are structurally vulnerable to the sf$\rightarrow$sm cascade when economic conditions deteriorate. Continuous monitoring of sm across a portfolio of DeFi positions would flag governance centralization before it manifests as a crisis---functioning as an early-warning system for the type of failure observed in Terra/Luna and Celsius.
+
+\textbf{Stress testing and simulation.} The three propagation chains (na$\rightarrow$ns$\rightarrow$sf, sm$\rightarrow$se$\rightarrow$ls, sf$\rightarrow$sm) provide a structural basis for DeFi stress tests. Rather than simulating price shocks alone, stress scenarios can model how architectural constraints propagate through the cascade---e.g., what happens to a protocol's sf score when ns degrades under load, or how economic stress (sf) exposes governance discretion (sm).
+
+\textbf{Responsible governance design.} The framework provides empirical evidence that protocol immutability is achievable (Uniswap V2, sm = 0) and that retained discretion is exploitable under economic stress (Terra/Luna, sm = 3). Protocol designers can use the matrix to identify which cells drive their risk profile above threshold and make targeted architectural changes before deployment.
 
 \subsection{Threats to Validity}
 
@@ -264,7 +272,7 @@ For DeFi, the BREM framework offers three practical applications. First, \textbf
 
 \subsection{Future Work}
 
-Future work includes: (1) expanding the DeFi dataset; (2) developing automated scoring tools that derive BREM scores from on-chain governance data; (3) longitudinal tracking of scores to identify early warning signals; and (4) formal modeling of cascade propagation mechanisms. The 21 unresolved projects provide a natural out-of-sample validation cohort.
+Future work includes: (1) expanding the DeFi dataset to improve statistical power for cascade analysis; (2) developing AI-driven automated scoring tools that derive BREM cell scores from on-chain governance data, contract metadata, and protocol documentation using anomaly detection and NLP techniques; (3) longitudinal tracking of BREM scores as an early-warning system, where changes in sm or sf trigger alerts before cascade propagation; (4) integration with DeFi stress testing frameworks, using the propagation chains as structural models for scenario simulation; and (5) cross-chain risk analysis, extending the matrix to evaluate bridge protocols and multi-chain deployments where mutation authority may be distributed across governance domains. The 21 unresolved projects provide a natural out-of-sample validation cohort as they mature.
 
 \section{Conclusion}
 
@@ -273,6 +281,10 @@ BREM provides a structured, multi-domain framework for blockchain risk evaluatio
 The framework achieves 92.5\% sensitivity at the $\geq$2.5 threshold with 100\% specificity among resolved projects, identifies correlated risk propagation chains converging on economic nonviability, and reveals a DeFi-specific cascade reversal that produces the same structural failure through a different entry point. No project with sm~$\leq$~2 has failed in the observed sample, suggesting that the architectural boundary between blockchain and database is observable, measurable, and almost universally compromised.
 
 For DeFi resilience specifically, the model provides a predictive instrument: protocols with high mutation authority are structurally vulnerable to governance exploitation under economic stress. The framework's principal limitation---that it captures systemic coordination risk better than commercial failure---is also its principal strength: it identifies the failure mode most directly attributable to architectural design choices.
+
+\section*{Acknowledgment}
+
+The authors acknowledge the use of AI-assisted tools (Anthropic Claude) for data analysis, statistical validation, and manuscript preparation. All analytical claims, scoring judgments, and interpretive conclusions were independently verified by the authors.
 
 \section*{Data Availability}
 
