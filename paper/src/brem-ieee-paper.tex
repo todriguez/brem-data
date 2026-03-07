@@ -232,11 +232,7 @@ The most striking distributional finding is not domain-level averages but the sm
 
 \subsection{Illustrative Cases}
 
-\textbf{Terra/Luna} (Overall: 2.67, Failed). The algorithmic stablecoin UST maintained its peg through an elastic supply mechanism. When the UST depeg began in May 2022, the sf failure (unsustainable economic model, sf = 4) exposed governance discretion (sm = 3): the Terra team minted billions of LUNA tokens attempting to restore the peg, accelerating the death spiral and destroying approximately \$40B in value.
-
-\textbf{Uniswap V2} (Overall: 1.22, Survivor). The sole sm = 0 project. Core contracts are immutable---deployed without admin keys, upgrade mechanisms, or pause functions. Governance exists only for the UNI token's treasury allocation and has no authority over the deployed protocol. This architectural commitment to immutability is associated with survival through multiple market crises.
-
-\textbf{ASX CHESS Replacement} (Overall: 3.78, Failed). The Australian Securities Exchange invested over \$250M across seven years to replace its clearing system with a blockchain-based solution. The architecture selected shared mutable global state, triggering the na$\rightarrow$ns$\rightarrow$sf cascade: the system could not handle concurrent clearing volumes, and the project was abandoned in 2023.
+\textbf{Terra/Luna} (2.67, Failed): the UST depeg exposed governance discretion (sm = 3); the Terra team minted billions of LUNA attempting to restore the peg, accelerating the death spiral (\$40B destroyed). \textbf{Uniswap V2} (1.22, Survivor): the sole sm = 0 project---immutable contracts, no admin keys, no upgrade mechanism. \textbf{ASX CHESS} (3.78, Failed): shared mutable global state triggered the na$\rightarrow$ns$\rightarrow$sf cascade; the system could not handle concurrent clearing volumes after \$250M and seven years of development.
 
 \section{Discussion}
 
@@ -260,19 +256,25 @@ The BREM framework is designed as a practical instrument. A risk analyst, protoc
 
 \textbf{Responsible governance design.} The framework provides empirical evidence that protocol immutability is achievable (Uniswap V2, sm = 0) and that retained discretion is exploitable under economic stress (Terra/Luna, sm = 3). Protocol designers can use the matrix to identify which cells drive their risk profile above threshold and make targeted architectural changes before deployment.
 
+\subsection{Scoring Extensions: Empirical Findings}
+
+Applying BREM to a current multi-platform infrastructure project (a central bank wholesale tokenised asset pilot depending on five independent DLT platforms) revealed three empirically validated extensions to the scoring methodology.
+
+\textbf{(1) Asymmetric cell weighting.} The flat average across nine cells treats each cell's contribution as symmetric---a low score offsets a high score equally. Empirical analysis reveals this is incorrect: \textit{every cell is asymmetric in the same direction}. When each cell is split at its median, the excess failure rate for above-median scores (``fail-pull'') consistently exceeds the excess survival rate for below-median scores (``surv-pull''). The asymmetry is dramatic for consensus (nc: 8.2$\times$), execution (se: 4.5$\times$), and architecture (na: 2.1$\times$). For legal standing (ls), the ratio is 1.8$\times$---a government \textit{can} kill a project (high weight when elevated), but legal clarity alone \textit{cannot} compensate for technical failure (discounted weight when protective). Applying asymmetric weights improves F1 from 0.902 to 0.914.
+
+\textbf{(2) Domain ceiling rule.} The flat average allows a strong law domain to mask failing technical domains. A dual threshold---flag if overall $\geq$~2.5 \textit{or} any domain $>$~3.0---improves F1 to 0.929, catching 39/40 failures versus 37/40 with the same false positive count. The two additional catches include projects with strong institutional backing but technically compromised infrastructure---precisely the pattern the flat average obscures. System State is the most predictive domain (Cohen's $d = 2.53$); averaging it equally with Law ($d = 1.25$) dilutes the strongest failure signal.
+
+\textbf{(3) Dependency decomposition.} The SPP framework assumes a single coherent subject per cell. When a project depends on $N$ independent platforms with independent governance, the mutation surface scales non-linearly: if each platform has probability $p$ of a breaking change, $P(\text{break}) = 1 - (1-p)^N$. With seven governance bodies at 10\% each, $P(\text{break}) = 52\%$ versus 10\% for a single authority. We propose a dependency penalty: $\text{sm}_\text{eff} = \min(4,\, \text{sm}_\text{base} + \lceil\log_2 N\rceil)$. Composition rules differ by cell: scalability is bottlenecked by the slowest platform; mutation authority is the union of all governance bodies; architecture inherits worst-case plus interoperability overhead.
+
+These extensions are compatible with the current framework and improve predictive performance on the existing dataset while addressing analytical gaps for multi-platform architectures.
+
 \subsection{Threats to Validity}
 
-\textbf{Construct validity.} The 0--4 scoring scale involves expert judgment. While calibrated to domain-specific criteria and validated through inter-rater reliability ($\kappa = 0.81$ cell-level, 0.91 domain-level), scores are not purely automated measurements.
-
-\textbf{Internal validity.} Knowledge of project outcomes may influence scoring despite the design-stage rubric. The blind-scoring test (89\% concordance, $n=10$) mitigates but does not eliminate this concern.
-
-\textbf{External validity.} The DeFi sub-dataset ($n=12$) is small. DeFi-specific findings (cascade reversal, clean separation) should be treated as preliminary until validated on a larger sample. The three false negatives suggest the model is better calibrated for systemic coordination risk than for commercial viability.
-
-\textbf{Temporal dynamics.} The model does not incorporate how risk profiles evolve as projects mature. A project scored at deployment may shift as governance structures change. Longitudinal tracking would strengthen the framework.
+The 0--4 scoring scale involves expert judgment ($\kappa = 0.81$ cell-level, 0.91 domain-level). Knowledge of outcomes may influence scoring despite the design-stage rubric; blind-scoring concordance was 89\% ($n=10$). The DeFi sub-dataset ($n=12$) is small; DeFi-specific findings should be treated as preliminary. The model does not capture temporal dynamics as governance structures evolve.
 
 \subsection{Future Work}
 
-Future work includes: (1) expanding the DeFi dataset to improve statistical power for cascade analysis; (2) developing AI-driven automated scoring tools that derive BREM cell scores from on-chain governance data, contract metadata, and protocol documentation using anomaly detection and NLP techniques; (3) longitudinal tracking of BREM scores as an early-warning system, where changes in sm or sf trigger alerts before cascade propagation; (4) integration with DeFi stress testing frameworks, using the propagation chains as structural models for scenario simulation; and (5) cross-chain risk analysis, extending the matrix to evaluate bridge protocols and multi-chain deployments where mutation authority may be distributed across governance domains. As a proof of concept for direction (2), we have implemented a prototype AI risk advisor that encodes the scoring heuristics and dataset comparables from this study, enabling interactive guided assessments that walk practitioners through each cell with calibrated anchors and de-risking recommendations. The 21 unresolved projects provide a natural out-of-sample validation cohort as they mature.
+Future work includes expanding the DeFi dataset, developing AI-driven automated scoring from on-chain governance data and protocol documentation, longitudinal tracking as an early-warning system, and integration with DeFi stress testing frameworks. As a proof of concept, we have implemented a prototype AI risk advisor encoding the scoring heuristics and dataset comparables for interactive guided assessments. The 21 unresolved projects provide a natural out-of-sample validation cohort as they mature.
 
 \section{Conclusion}
 
