@@ -287,6 +287,23 @@ Critically, the correct composition rule differs by cell. Scalability is bottlen
 
 A further complication is \textit{liability asymmetry} at the platform layer. Platform providers typically disclaim liability for third-party integrations through standard terms of service, capping aggregate liability at nominal amounts. This means the governance body overseeing a multi-platform project may have no contractual recourse when an upstream platform deploys a breaking change---rendering the project's own governance a facade that controls rules but not the infrastructure those rules depend on.
 
+\textit{Cross-validation.} Applying BREM with dependency decomposition to three current central-bank wholesale settlement projects confirms the effect (Table~\ref{tab:crossval}). All three have near-identical Law domains ($\approx$1.33), similar institutional backing, and central bank oversight. The entire risk differential is architectural: the single-platform project passes every threshold rule comfortably, the modular multi-platform project is borderline, and the systemically-coupled multi-platform project sits at the domain ceiling boundary. Critically, the modular project---which isolates use cases on separate chains---scores lower than the systemic project despite having \textit{more} total platform dependencies, because its per-function $N$ is 2--3 rather than 5--7. This confirms that the dependency penalty should scale with the number of platforms that must \textit{interoperate for a single settlement function}, not the total platform count in the ecosystem.
+
+\begin{table}[htbp]
+\caption{Cross-Validation: Central Bank Settlement Pilots}
+\label{tab:crossval}
+\centering
+\begin{tabular}{lcccccc}
+\toprule
+& \textbf{$N$} & \textbf{sm\textsubscript{eff}} & \textbf{Net.} & \textbf{Sys.} & \textbf{Law} & \textbf{Overall} \\
+\midrule
+Single-platform & 1 & 3 & 2.33 & 2.33 & 1.33 & 2.00 \\
+Modular multi & 7+ & 3--4 & 3.00 & 2.67 & 1.33 & 2.33 \\
+Systemic multi & 5 & 4 & 3.00 & 3.00 & 1.33 & 2.44 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 These extensions are compatible with the current framework and improve predictive performance on the existing dataset while addressing analytical gaps that emerge when scoring modern multi-platform architectures.
 
 \subsection{Threats to Validity}
