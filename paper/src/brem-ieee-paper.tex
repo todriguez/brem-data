@@ -30,9 +30,9 @@ blockchain risk, DeFi, mutation authority, failure prediction, risk framework, s
 
 \section{Introduction}
 
-Decentralized Finance (DeFi) has produced both transformative innovation and catastrophic failure. The collapse of Terra/Luna (\$40B in market capitalisation destroyed \cite{liu2023}), FTX (\$8B in customer funds unaccounted \cite{ray2022}), and Celsius (\$4.7B in frozen deposits \cite{celsius2022}) demonstrated that DeFi risk assessment remains largely post-hoc---failures are diagnosed after capital is destroyed. Enterprise blockchain has experienced a parallel pattern: the ASX CHESS replacement consumed over \$250M before abandonment \cite{asx2023}, while TradeLens and Marco Polo were discontinued despite significant institutional investment, for reasons that appear, in retrospect, structurally predictable.
+Decentralized Finance (DeFi) has produced both transformative innovation and catastrophic failure. The collapse of Terra/Luna (approximately \$40B in combined market capitalisation destroyed \cite{liu2023terra}), FTX (billions in customer funds misappropriated \cite{ray2022}), and Celsius (approximately \$4.7B in customer assets frozen \cite{celsius2022}) demonstrated that DeFi risk assessment remains largely post-hoc---failures are diagnosed after capital is destroyed. Enterprise blockchain has experienced a parallel pattern: the ASX CHESS replacement consumed over A\$250M before abandonment \cite{asx2022}, while TradeLens and Marco Polo were discontinued despite significant institutional investment, for reasons that appear, in retrospect, structurally predictable.
 
-The central challenge is that existing risk approaches evaluate isolated dimensions---smart contract auditing \cite{atzei2017}, economic mechanism design \cite{daian2020}, or regulatory compliance---without integrating technical architecture, governance design, and legal enforceability into a unified assessment. We therefore propose an integrated framework that scores these three layers in one matrix.
+The central challenge is that existing risk approaches evaluate isolated dimensions---smart contract vulnerability analysis \cite{atzei2017}, transaction-ordering and MEV risk \cite{daian2020}, or regulatory compliance---without integrating technical architecture, governance design, and legal enforceability into a unified assessment. We therefore propose an integrated framework that scores these three layers in one matrix.
 
 This paper presents BREM (Blockchain Risk Evaluation Model), which evaluates blockchain systems across nine canonical risk dimensions using a Structure $\times$ Process $\times$ Persistence (SPP) matrix applied at three coordination layers. We demonstrate its predictive accuracy across an 83-project dataset spanning enterprise, institutional, and DeFi deployments, and identify \textit{mutation authority}---the scope of discretion retained over protocol rules---as the single most diagnostic risk variable.
 
@@ -51,15 +51,15 @@ The rest of this paper is organized as follows. Section~II reviews related work.
 
 \subsection{DeFi Risk Frameworks}
 
-DeFi risk analysis has advanced significantly in recent years. Gudgeon et al.\ \cite{gudgeon2020} developed a framework for analyzing DeFi protocol exploits through economic and technical lenses. Werner et al.\ \cite{werner2022} provided a systematic classification of DeFi risks across smart contract, economic, and governance dimensions. Xu et al.\ \cite{xu2023} proposed quantitative metrics for DeFi protocol resilience. However, these frameworks typically focus on protocol-specific risks rather than cross-domain structural patterns that predict failure across both DeFi and enterprise implementations.
+DeFi risk analysis has advanced significantly in recent years. Gudgeon et al.\ \cite{gudgeon2020} modelled the microstructure of DeFi lending protocols, analyzing interest rate dynamics, liquidity, and market efficiency. Werner et al.\ \cite{werner2022} provided a systematic classification of DeFi risks across smart contract, economic, and governance dimensions. Xu et al.\ \cite{xu2023} presented a comparative analysis of decentralized exchange designs and automated market maker mechanisms. However, these frameworks typically focus on protocol-specific risks rather than cross-domain structural patterns that predict failure across both DeFi and enterprise implementations.
 
 \subsection{Blockchain Failure Analysis}
 
-Post-mortem analyses of blockchain project failures have identified recurring patterns. The ASX CHESS replacement failure has been documented as an architecture-scalability problem \cite{asx2023}. Catalini and Gans \cite{catalini2020} examined the economics of blockchain adoption, identifying coordination costs as a key barrier. Carson et al.\ \cite{carson2018} surveyed enterprise blockchain adoption, noting high failure rates without providing a predictive framework. W\"ust and Gervais \cite{wust2018} proposed a structured decision model for whether blockchain is appropriate, but did not quantify risk across deployed systems.
+Post-mortem analyses of blockchain project failures have identified recurring patterns. The ASX CHESS replacement failure has been documented as an architecture-scalability problem \cite{asx2022}. Catalini and Gans \cite{catalini2020} examined the economics of blockchain adoption, identifying coordination costs as a key barrier. Carson et al.\ \cite{carson2018} surveyed enterprise blockchain strategy, framing conditions under which blockchain creates business value. W\"ust and Gervais \cite{wust2018} proposed a structured decision model for whether blockchain is appropriate, but did not quantify risk across deployed systems.
 
 \subsection{Governance and Centralisation Risk}
 
-The concept of protocol governance as a risk factor has been explored by Barbereau et al.\ \cite{barbereau2022}, who examined governance token concentration in DeFi. Fritsch et al.\ \cite{fritsch2022} analyzed voting power distribution in DAOs. Walch \cite{walch2019} identified software governance as a source of centralization risk in ostensibly decentralized systems. Our contribution extends this line of work by formalizing \textit{mutation authority}---the operational scope of discretion over protocol rules, not merely token-weighted voting power---as a scored dimension within a multi-domain framework, and demonstrating its predictive power across 83 projects spanning both enterprise and DeFi.
+The concept of protocol governance as a risk factor has been explored by Barbereau et al.\ \cite{barbereau2022}, who characterized DeFi governance as timocratic, with tradable voting rights concentrating authority. Fritsch et al.\ \cite{fritsch2024} analyzed voting power distribution in DAOs. Walch \cite{walch2019} identified software governance as a source of centralization risk in ostensibly decentralized systems. Our contribution extends this line of work by formalizing \textit{mutation authority}---the operational scope of discretion over protocol rules, not merely token-weighted voting power---as a scored dimension within a multi-domain framework, and demonstrating its predictive power across 83 projects spanning both enterprise and DeFi.
 
 \section{The BREM Framework}
 
@@ -332,35 +332,35 @@ The scored dataset (83 projects $\times$ 40 columns), scoring rubric, codebook, 
 
 \begin{thebibliography}{00}
 
-\bibitem{atzei2017} N.~Atzei, M.~Bartoletti, and T.~Cimoli, ``A survey of attacks on Ethereum smart contracts (SoK),'' in \textit{Proc.\ POST}, 2017, pp.\ 164--186.
+\bibitem{atzei2017} N.~Atzei, M.~Bartoletti, and T.~Cimoli, ``A survey of attacks on Ethereum smart contracts (SoK),'' in \textit{Proc.\ POST}, 2017, pp.\ 164--186, doi:~10.1007/978-3-662-54455-6\_8.
 
-\bibitem{daian2020} P.~Daian et al., ``Flash Boys 2.0: Frontrunning in decentralized exchanges, miner extractable value, and consensus instability,'' in \textit{Proc.\ IEEE S\&P}, 2020, pp.\ 910--927.
+\bibitem{daian2020} P.~Daian et al., ``Flash Boys 2.0: Frontrunning in decentralized exchanges, miner extractable value, and consensus instability,'' in \textit{Proc.\ IEEE S\&P}, 2020, pp.\ 910--927, doi:~10.1109/SP40000.2020.00040.
 
-\bibitem{gudgeon2020} L.~Gudgeon, P.~Perez-Sola, D.~Harz, B.~Livshits, and A.~Gervais, ``DeFi protocols for loanable funds: Interest rates, liquidity and market efficiency,'' in \textit{Proc.\ AFT}, 2020, pp.\ 92--112.
+\bibitem{gudgeon2020} L.~Gudgeon, D.~Perez, D.~Harz, B.~Livshits, and A.~Gervais, ``DeFi protocols for loanable funds: Interest rates, liquidity and market efficiency,'' in \textit{Proc.\ AFT}, 2020, pp.\ 92--112, doi:~10.1145/3419614.3423254.
 
-\bibitem{werner2022} S.~Werner, D.~Perez, L.~Gudgeon, A.~Klages-Mundt, D.~Harz, and W.~Knottenbelt, ``SoK: Decentralized finance (DeFi),'' in \textit{Proc.\ AFT}, 2022.
+\bibitem{werner2022} S.~Werner, D.~Perez, L.~Gudgeon, A.~Klages-Mundt, D.~Harz, and W.~Knottenbelt, ``SoK: Decentralized finance (DeFi),'' in \textit{Proc.\ AFT}, 2022, doi:~10.1145/3558535.3559780.
 
-\bibitem{xu2023} J.~Xu, K.~Paruch, S.~Cousaert, and Y.~Feng, ``SoK: Decentralized exchanges (DEX) with automated market maker (AMM) protocols,'' \textit{ACM Computing Surveys}, vol.~55, no.~11, 2023.
+\bibitem{xu2023} J.~Xu, K.~Paruch, S.~Cousaert, and Y.~Feng, ``SoK: Decentralized exchanges (DEX) with automated market maker (AMM) protocols,'' \textit{ACM Computing Surveys}, vol.~55, no.~11, 2023, doi:~10.1145/3570639.
 
-\bibitem{asx2023} ASX Limited, ``CHESS replacement project update,'' ASX Media Release, Nov.\ 2023.
+\bibitem{asx2022} ASX Limited, ``CHESS replacement---ASX reassessing; financial derecognition,'' ASX Market Announcement, Nov.\ 2022. [Online]. Available: \url{https://www.asx.com.au/content/dam/asx/about/media-releases/2022/60-17-november-2022-CHESS-Replacement-ASX-reassessing-financial-derecognition_.pdf}
 
-\bibitem{catalini2020} C.~Catalini and J.~Gans, ``Some simple economics of the blockchain,'' \textit{Communications of the ACM}, vol.~63, no.~7, pp.\ 80--90, 2020.
+\bibitem{catalini2020} C.~Catalini and J.~Gans, ``Some simple economics of the blockchain,'' \textit{Communications of the ACM}, vol.~63, no.~7, pp.\ 80--90, 2020, doi:~10.1145/3359552.
 
-\bibitem{carson2018} B.~Carson, G.~Romanelli, P.~Walsh, and A.~Zhumaev, ``Blockchain beyond the hype: What is the strategic business value?'' McKinsey Digital, 2018.
+\bibitem{carson2018} B.~Carson, G.~Romanelli, P.~Walsh, and A.~Zhumaev, ``Blockchain beyond the hype: What is the strategic business value?'' McKinsey Digital, Jun.\ 2018. [Online]. Available: \url{https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/blockchain-beyond-the-hype-what-is-the-strategic-business-value}
 
-\bibitem{barbereau2022} T.~Barbereau, G.~Smethurst, O.~Papenbrock, and J.~Sedlmeir, ``Decentralized finance's unregulated governance: Minority rule in the digital wild west,'' \textit{J.\ Financial Regulation}, 2022.
+\bibitem{barbereau2022} T.~Barbereau, R.~Smethurst, O.~Papageorgiou, J.~Sedlmeir, and G.~Fridgen, ``Decentralised finance's timocratic governance: The distribution and exercise of tokenised voting rights,'' \textit{Technology in Society}, vol.~73, 2023, doi:~10.1016/j.techsoc.2023.102251.
 
-\bibitem{fritsch2022} R.~Fritsch, M.~M\"uller, and R.~Wattenhofer, ``Analyzing voting power in decentralized governance: Who controls DAOs?'' in \textit{Proc.\ AFT}, 2022.
+\bibitem{fritsch2024} R.~Fritsch, M.~M\"uller, and R.~Wattenhofer, ``Analyzing voting power in decentralized governance: Who controls DAOs?'' \textit{Blockchain: Research and Applications}, vol.~5, no.~2, 2024, doi:~10.1016/j.bcra.2024.100208.
 
-\bibitem{wust2018} K.~W\"ust and A.~Gervais, ``Do you need a blockchain?'' in \textit{Proc.\ Crypto Valley Conf.\ Blockchain Technology (CVCBT)}, 2018, pp.\ 45--54.
+\bibitem{wust2018} K.~W\"ust and A.~Gervais, ``Do you need a blockchain?'' in \textit{Proc.\ Crypto Valley Conf.\ Blockchain Technology (CVCBT)}, 2018, pp.\ 45--54, doi:~10.1109/CVCBT.2018.00011.
 
 \bibitem{walch2019} A.~Walch, ``Deconstructing `decentralization': Exploring the core claim of crypto systems,'' in \textit{Crypto Assets: Legal and Monetary Perspectives}, C.~Brummer, Ed.\ Oxford University Press, 2019.
 
-\bibitem{liu2023} Y.~Liu and L.~Tsyvinski, ``Risks and returns of cryptocurrency,'' \textit{Rev.\ Financial Studies}, vol.~34, no.~6, pp.\ 2689--2727, 2021.
+\bibitem{liu2023terra} J.~Liu, I.~Makarov, and A.~Schoar, ``Anatomy of a run: The Terra Luna crash,'' NBER Working Paper 31160, 2023, doi:~10.3386/w31160.
 
-\bibitem{ray2022} J.~Ray, ``First day declaration,'' \textit{In re FTX Trading Ltd.}, Case No.\ 22-11068 (Bankr.\ D.\ Del.), Nov.\ 2022.
+\bibitem{ray2022} J.~Ray~III, ``First day declaration,'' \textit{In re FTX Trading Ltd.}, Case No.\ 22-11068, Doc.\ 24 (Bankr.\ D.\ Del.), Nov.\ 17, 2022.
 
-\bibitem{celsius2022} Celsius Network LLC, ``Chapter 11 petition,'' Case No.\ 22-10964 (Bankr.\ S.D.N.Y.), Jul.\ 2022.
+\bibitem{celsius2022} Federal Trade Commission, ``FTC reaches settlement with crypto platform Celsius Network,'' FTC Press Release, Jul.\ 13, 2023. [Online]. Available: \url{https://www.ftc.gov/news-events/news/press-releases/2023/07/ftc-reaches-settlement-crypto-platform-celsius-network}
 
 \end{thebibliography}
 
