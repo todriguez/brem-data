@@ -90,13 +90,13 @@ At the micro level, each layer is interrogated through the same SPP lens, produc
 
 Each cell is scored 0--4, where 0 represents negligible risk (protocol-constrained, no discretionary authority) and 4 represents critical risk (fully centralized control or fundamental architectural failure). The scale is calibrated to each domain: \textbf{Network} measures protocol determinism (0 = independent state, no shared mutable data; 4 = shared mutable global state with sequential execution bottlenecks). \textbf{System State} measures mutation authority (0 = immutable protocol, no admin keys; 4 = database-administrator-level discretion). \textbf{Law} measures enforceability (0 = clear standing, established remedies, identifiable liable parties; 4 = non-attributable participants with no legal recourse).
 
-Each cell is assessed through five sub-questions (45 total across all nine cells), producing granular scores that aggregate to cell-level and domain-level means. The full scoring rubric, with sub-question definitions and score-level criteria, is published with the dataset.
+Each cell is scored against domain-specific anchors defining what each score level (0--4) means for that cell. The full scoring rubric, with anchor definitions and reference examples for all nine cells, is published with the dataset.
 
 \subsection{Mutation Authority (sm): The Diagnostic Variable}
 
 Mutation authority measures the scope of discretion any entity retains over: (1) protocol rules and consensus parameters; (2) data structures and state management; (3) execution environment and smart contract upgradeability; (4) network parameters and access control; and (5) economic rules and fee structures.
 
-This variable captures whether a system has committed to protocol-constrained state transition (sm = 0) or retains human override capability (sm $\geq$ 3). Unlike governance token concentration \cite{barbereau2022} or voting power distribution \cite{fritsch2022}, mutation authority measures \textit{operational} discretion: whether admin keys exist, whether contracts are upgradeable, whether parameters can be altered unilaterally. It is the architectural boundary between a blockchain and a database with distributed witnesses.
+This variable captures whether a system has committed to protocol-constrained state transition (sm = 0) or retains human override capability (sm $\geq$ 3). Unlike governance token concentration \cite{barbereau2022} or voting power distribution \cite{fritsch2024}, mutation authority measures \textit{operational} discretion: whether admin keys exist, whether contracts are upgradeable, whether parameters can be altered unilaterally. It is the architectural boundary between a blockchain and a database with distributed witnesses.
 
 \section{Dataset and Methodology}
 
@@ -113,11 +113,13 @@ Of the 83 projects, 62 have reached definitive outcomes (\textit{resolved}), whi
 
 \subsection{Scoring Process}
 
-Each project is scored across 45 sub-questions (5 per cell), each yielding a 0--4 integer score. Sub-question scores are averaged to produce cell scores, cell scores are averaged within rows to produce domain scores, and the overall BREM score is the mean of all nine cell scores.
+Each project is scored across 9 cells, each yielding a 0--4 integer score assessed against published cell-level anchors. Cell scores are averaged within rows to produce domain scores, and the overall BREM score is the mean of all nine cell scores.
 
 Scores are derived from publicly available evidence: technical whitepapers, protocol documentation, governance forum records, on-chain contract analysis, regulatory filings, and post-mortem reports. Each score is accompanied by an evidence citation identifying the source and the specific characteristic being assessed.
 
-The scoring process proceeded in two phases. In Phase~1, 10 anchor projects spanning the full risk spectrum---confirmed failures (ASX CHESS, Terra/Luna, TradeLens), mid-range pilots (Project Acacia, BIS Mandala), and production survivors (Uniswap V2)---were scored independently across all 45 sub-questions with detailed evidence documentation. In Phase~2, the remaining 73 projects were scored using the same rubric, with anchor scores serving as calibration references to ensure consistent score-level application across projects with similar architectures and governance structures.
+The scoring process uses a structured assessment instrument with branching decision logic: for each cell, a series of diagnostic questions progressively narrows the appropriate score level, with early answers eliminating redundant downstream questions (e.g., a project confirmed as protocol-immutable need not answer questions about upgrade authority). This branching structure yields a cell-level score validated against the published anchors.
+
+The process proceeded in two phases. In Phase~1, 10 anchor projects spanning the full risk spectrum---confirmed failures (ASX CHESS, Terra/Luna, TradeLens), mid-range pilots (Project Acacia, BIS Mandala), and production survivors (Uniswap V2)---were scored independently with detailed evidence documentation. In Phase~2, the remaining 73 projects were scored using the same instrument, with anchor scores serving as calibration references to ensure consistent score-level application across projects with similar architectures and governance structures.
 
 \textbf{Hindsight bias mitigation.} The scoring rubric assesses architectural and governance properties observable at the \textit{design stage}, not outcomes. For example, the sm sub-questions ask whether admin keys exist, whether contracts are upgradeable, and whether governance can alter protocol parameters---all verifiable from protocol documentation before any failure occurs. To further test for outcome bias, 10 projects were scored blind to their current status by a second assessor; concordance was 89\% within $\pm$0.5 points per cell.
 

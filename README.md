@@ -30,24 +30,41 @@ BREM organises blockchain risk into a 3×3 matrix using the Structure–Process�
 | **System State** | Execution (se) | Mutation Authority (sm) | Economic Fitness (sf) |
 | **Law** | Standing (ls) | Remedy (lr) | Liability (lp) |
 
-Each cell is scored 0–4 (increasing risk). See [CODEBOOK.md](data/CODEBOOK.md) for full scoring definitions.
+Each cell is scored 0–4 (increasing risk). See [`scoring-rubric.md`](data/scoring-rubric.md) for cell-level anchor definitions and [`CODEBOOK.md`](data/CODEBOOK.md) for dataset documentation.
 
 ## Repository Structure
 
 ```
 ├── data/
-│   ├── brem-dataset-v3.csv          # Full 83-project scored dataset
-│   ├── CODEBOOK.md                  # Dataset documentation and methodology
-│   └── scoring-rubric.md            # Detailed scoring rubric (0-4 scale)
+│   ├── brem-dataset-v3.csv              # Full 83-project scored dataset
+│   ├── CODEBOOK.md                      # Dataset documentation and methodology
+│   └── scoring-rubric.md               # Cell-level scoring anchors (0-4 scale)
 ├── paper/
 │   ├── src/
-│   │   ├── brem-ieee-paper.tex      # LaTeX source (IEEEtran format)
-│   │   └── IEEEtran.cls            # IEEE class file
-│   └── BREM-IEEE-Paper-Draft.pdf    # Compiled PDF
+│   │   ├── brem-ieee-paper.tex          # LaTeX source (IEEEtran format)
+│   │   └── IEEEtran.cls               # IEEE class file
+│   └── BREM-IEEE-Paper-Draft.pdf        # Compiled PDF
+├── assessments/                         # Worked BREM assessments
+│   ├── brem-assessment-project-acacia.md    # BIS/RBA — CBDC settlement (2.44)
+│   ├── brem-assessment-project-guardian.md  # MAS — multi-platform DeFi (2.33)
+│   ├── brem-assessment-fnality-international.md  # BoE-supervised — wholesale settlement (2.00)
+│   └── brem-assessment-stripe-tempo.md      # Stripe/Paradigm — payments L1 (2.22)
 ├── docs/
-│   └── (supporting documents)
+│   └── brem-framework-extensions.md     # Three scoring extensions (V2 methodology)
+├── tools/
+│   └── brem-consultant/                 # AI advisor skill (scoring guide + dataset summary)
 └── README.md
 ```
+
+### Reviewer Guide
+
+**To verify claims in the paper:**
+
+1. **Scoring methodology**: [`data/scoring-rubric.md`](data/scoring-rubric.md) — cell-level anchor definitions (what each 0–4 score means for each cell, with reference examples)
+2. **Dataset**: [`data/brem-dataset-v3.csv`](data/brem-dataset-v3.csv) — all 83 projects with scores, outcomes, evidence summaries, and data sources
+3. **Dataset documentation**: [`data/CODEBOOK.md`](data/CODEBOOK.md) — column definitions, outcome classification criteria, key statistics, limitations
+4. **Scoring extensions**: [`docs/brem-framework-extensions.md`](docs/brem-framework-extensions.md) — asymmetric weighting, domain ceiling, dependency decomposition
+5. **Worked assessments**: [`assessments/`](assessments/) — four full BREM assessments demonstrating the scoring process cell-by-cell with evidence citations
 
 ## Threshold Performance
 

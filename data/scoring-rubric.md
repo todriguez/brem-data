@@ -1,446 +1,172 @@
-# BRAP 2.0 Scoring Rubric
-**Converting Descriptive Project Data to Deterministic 0-4 SPF Scores**
+# BREM Scoring Rubric
+**Blockchain Risk Evaluation Model — Cell-Level Scoring Anchors (0–4)**
 
 ## Overview
 
-This rubric provides standardized criteria for scoring blockchain projects using the BRAP 2.0 45-question SPF Matrix. Each question uses a 0-4 scale where 0 represents maximum determinism and 4 represents unbounded discretion.
+Each of the nine BREM cells is scored on a 0–4 integer scale. The scale measures a domain-specific dimension: **protocol determinism** (Network), **mutation authority** (System State), and **legal enforceability** (Law). A score of 0 represents maximum constraint; a score of 4 represents unbounded discretion or structural failure.
+
+Scores are assigned by evaluating a project against the cell-level anchors below. Each anchor defines what a given score means for that specific cell, with reference examples. Where multiple indicators pull in different directions, the score reflects the dominant structural characteristic — BREM scores architecture, not intent.
 
 ## Scoring Methodology
 
 ### Evidence Hierarchy
-1. **Primary Sources** (Weight: 1.0): Official documentation, whitepapers, regulatory filings
-2. **Secondary Sources** (Weight: 0.8): Industry reports, press releases, verified announcements
-3. **Inferred Data** (Weight: 0.6): Analysis based on technical architecture patterns
+1. **Primary Sources** (strongest): Official documentation, whitepapers, regulatory filings, on-chain data, court documents
+2. **Secondary Sources**: Industry reports, press releases, verified announcements, academic analysis
+3. **Inferred**: Analysis based on technical architecture patterns, comparable projects
 
-### Inter-Rater Reliability
-- All projects scored independently by 2+ analysts
-- Conflicts resolved through evidence review and consensus
-- Scoring rationale documented with supporting evidence
+### Calibration
+- Expert anchor scores established for representative projects across all 9 cells
+- Systematic scorer uses weighted blend of expert anchors and computed baselines derived from project metadata
+- All scores include evidence citations (see `evidence_summary` and `primary_data_sources` columns in dataset)
+
+### Validation
+- Cohen's κ = 0.81 at cell level, 0.91 at domain level (inter-rater reliability)
+- 10 projects scored blind to outcome: 89% concordance with post-hoc scores
+- Conservative bias: when uncertain, score toward higher risk (higher number)
 
 ---
 
-## NETWORK DOMAIN (Machine ↔ Machine)
-
-### Architecture (Structure)
-
-#### **na_1** - Protocol Stability
-**Question**: To what extent can any subset of participants unilaterally change core protocol rules?
-
-**Scoring Criteria:**
-- **Score 0**: Bitcoin-like immutable protocol, cryptographically locked consensus rules
-  - *Evidence*: No upgrade mechanism, mathematical consensus rules
-  - *Examples*: Pure Bitcoin Script, immutable smart contracts
-
-- **Score 1**: Ethereum-like hard fork requirement for protocol changes
-  - *Evidence*: Requires broad community consensus and coordination
-  - *Examples*: Bitcoin improvements requiring universal adoption
-
-- **Score 2**: Formal governance process requiring supermajority (75%+)
-  - *Evidence*: Documented governance requiring high thresholds
-  - *Examples*: Some DeFi protocols with high governance thresholds
-
-- **Score 3**: Core development team or foundation can make protocol changes
-  - *Evidence*: Centralized development authority, admin keys
-  - *Examples*: Many enterprise blockchains, consortium chains
-
-- **Score 4**: Single entity or individual can unilaterally change protocol
-  - *Evidence*: Admin controls, single-party governance
-  - *Examples*: Private chains, centralized databases
-
-#### **na_2** - Rule Uniformity
-**Question**: To what extent do all participants operate under identical protocol rules?
-
-**Scoring Criteria:**
-- **Score 0**: Mathematical consensus ensures identical execution
-  - *Evidence*: Deterministic virtual machine, consensus verification
-  - *Examples*: Bitcoin UTXO model, Ethereum EVM
-
-- **Score 1**: Minor version differences with backward compatibility
-  - *Evidence*: Multiple client implementations with compatibility testing
-  - *Examples*: Bitcoin Core vs other Bitcoin clients
-
-- **Score 2**: Approved implementations that pass compatibility tests
-  - *Evidence*: Formal certification process for client implementations
-  - *Examples*: Some enterprise chains with certified clients
-
-- **Score 3**: Interpretive flexibility in rule implementation
-  - *Evidence*: Ambiguous specifications, subjective implementation choices
-  - *Examples*: Loosely specified protocols
-
-- **Score 4**: Participants operate under different rule sets
-  - *Evidence*: Fragmented implementations, incompatible versions
-  - *Examples*: Failed consortium chains with inconsistent implementations
-
-#### **na_3** - Backward Compatibility
-**Question**: To what extent are previously valid transactions guaranteed to remain valid?
-
-**Scoring Criteria:**
-- **Score 0**: All previous transactions remain valid indefinitely
-  - *Evidence*: Genesis block still validates, no breaking changes ever
-  - *Examples*: Bitcoin's perfect backward compatibility
-
-- **Score 1**: Long deprecation windows (2+ years) with advance notice
-  - *Evidence*: Documented deprecation schedules, migration tools
-  - *Examples*: Gradual protocol upgrades with long transition periods
-
-- **Score 2**: Version-based validity with clear migration paths
-  - *Evidence*: Transaction format versions, upgrade documentation
-  - *Examples*: Some smart contract platforms with versioned transactions
-
-- **Score 3**: Conditional validity based on governance decisions
-  - *Evidence*: Governance votes can invalidate old transaction types
-  - *Examples*: Chains where governance can deprecate features
-
-- **Score 4**: Regular breaking changes invalidate old transactions
-  - *Evidence*: History of breaking changes, abandoned transaction formats
-  - *Examples*: Early-stage protocols with frequent breaking updates
-
-#### **na_4** - Architectural Dependency
-**Question**: To what extent does correct operation depend on non-standard or custom components?
-
-**Scoring Criteria:**
-- **Score 0**: Uses only established, standardized components
-  - *Evidence*: Standard cryptography, proven algorithms, open specifications
-  - *Examples*: Bitcoin (SHA-256, ECDSA, standard networking)
-
-- **Score 1**: Well-tested newer technologies with strong track record
-  - *Evidence*: Mature implementations, extensive testing, wide adoption
-  - *Examples*: Ethereum using established but newer cryptographic primitives
-
-- **Score 2**: Mix of standard components with some newer elements
-  - *Evidence*: Combination of proven and emerging technologies
-  - *Examples*: Protocols using standard crypto + newer consensus mechanisms
-
-- **Score 3**: Heavy reliance on custom or proprietary components
-  - *Evidence*: Custom consensus, proprietary algorithms, vendor lock-in
-  - *Examples*: Enterprise chains with proprietary consensus mechanisms
-
-- **Score 4**: Core operation depends on experimental technologies
-  - *Evidence*: Unproven algorithms, research-stage components
-  - *Examples*: Chains using experimental cryptography or consensus
-
-#### **na_5** - Change Authority
-**Question**: To what extent can architectural decisions be changed without full participant alignment?
-
-**Scoring Criteria:**
-- **Score 0**: Architectural decisions are immutable
-  - *Evidence*: No mechanism to change core architecture
-  - *Examples*: Bitcoin's immutable UTXO architecture
-
-- **Score 1**: Unanimous consensus required for architectural changes
-  - *Evidence*: All participants must agree to changes
-  - *Examples*: Hard fork requiring universal adoption
-
-- **Score 2**: Supermajority vote through formal governance process
-  - *Evidence*: 75%+ vote required, formal proposal process
-  - *Examples*: Some DeFi protocols with high governance thresholds
-
-- **Score 3**: Core development team can make architectural changes
-  - *Evidence*: Developer authority over architecture decisions
-  - *Examples*: Many blockchain projects with centralized development
-
-- **Score 4**: Single entity has administrative control over architecture
-  - *Evidence*: Admin keys, centralized control mechanisms
-  - *Examples*: Private blockchains, centralized systems
-
-### Consensus (Process)
-
-#### **nc_1** - Finality Assurance
-**Question**: To what extent is transaction finality immune from later reversal?
-
-**Scoring Criteria:**
-- **Score 0**: Cryptographic finality is mathematically guaranteed
-  - *Evidence*: Immediate finality, cryptographic proof of immutability
-  - *Examples*: Practical Byzantine Fault Tolerance (pBFT) systems
-
-- **Score 1**: Probabilistic finality approaches mathematical certainty over time
-  - *Evidence*: Proof of Work with deep confirmations
-  - *Examples*: Bitcoin after 6+ confirmations
-
-- **Score 2**: Formal finalization process provides strong guarantees
-  - *Evidence*: Explicit finality gadgets, checkpoint mechanisms
-  - *Examples*: Ethereum 2.0 finality, Tendermint finality
-
-- **Score 3**: Economic finality - reversal becomes prohibitively expensive
-  - *Evidence*: High cost of attack, economic security models
-  - *Examples*: Proof of Stake chains with slashing conditions
-
-- **Score 4**: Discretionary finality dependent on validator decisions
-  - *Evidence*: Validators can choose to reverse transactions
-  - *Examples*: Consortium chains with manual finality decisions
-
-#### **nc_2** - Consensus Control
-**Question**: To what extent is consensus influenced by identifiable individuals or committees?
-
-**Scoring Criteria:**
-- **Score 0**: Anonymous, permissionless consensus participation
-  - *Evidence*: Anyone can participate anonymously
-  - *Examples*: Bitcoin mining, anonymous staking
-
-- **Score 1**: Pseudonymous stake-based consensus without identity requirements
-  - *Evidence*: Stake-based voting with pseudonymous participants
-  - *Examples*: Public Proof of Stake chains
-
-- **Score 2**: Known validators operating under objective, algorithmic rules
-  - *Evidence*: Identified validators following deterministic protocols
-  - *Examples*: Some Proof of Stake chains with known validator identities
-
-- **Score 3**: Permissioned set of pre-approved consensus participants
-  - *Evidence*: Whitelist of approved validators, approval process
-  - *Examples*: Consortium blockchains with approved members
-
-- **Score 4**: Identifiable authorities or committees control consensus
-  - *Evidence*: Named individuals with consensus authority
-  - *Examples*: Private blockchains with designated consensus authorities
-
-#### **nc_3** - Participant Inclusion
-**Question**: To what extent can participants be excluded from consensus through non-technical means?
-
-**Scoring Criteria:**
-- **Score 0**: Inclusion based purely on technical requirements (computation/stake)
-  - *Evidence*: Only technical barriers to participation
-  - *Examples*: Bitcoin mining, public staking
-
-- **Score 1**: Objective, measurable criteria for participation
-  - *Evidence*: Clear, quantifiable requirements for participation
-  - *Examples*: Minimum stake requirements, performance metrics
-
-- **Score 2**: Transparent registration with consistent criteria
-  - *Evidence*: Public registration process with defined standards
-  - *Examples*: Some consortium chains with transparent membership
-
-- **Score 3**: Subjective approval by existing participants or governance
-  - *Evidence*: Discretionary approval process, voting on new members
-  - *Examples*: Consortium chains requiring member approval
-
-- **Score 4**: Arbitrary exclusion for political, personal, or jurisdictional reasons
-  - *Evidence*: Exclusions based on non-technical factors
-  - *Examples*: Geographically restricted chains, politically motivated exclusions
-
-#### **nc_4** - Override Mechanisms
-**Question**: To what extent can consensus rules be altered outside automated processes?
-
-**Scoring Criteria:**
-- **Score 0**: Consensus follows fixed algorithmic rules with no override
-  - *Evidence*: No mechanism to override consensus rules
-  - *Examples*: Pure algorithmic consensus (Bitcoin, early Ethereum)
-
-- **Score 1**: Predefined, algorithmic emergency procedures for specific scenarios
-  - *Evidence*: Automatic emergency protocols triggered by specific conditions
-  - *Examples*: Circuit breakers, automatic halting mechanisms
-
-- **Score 2**: Formal governance process can modify consensus through voting
-  - *Evidence*: Governance proposals can change consensus parameters
-  - *Examples*: Many modern DeFi protocols with governance
-
-- **Score 3**: Administrative override under defined circumstances
-  - *Evidence*: Admin controls for specific emergency situations
-  - *Examples*: Enterprise blockchains with admin emergency powers
-
-- **Score 4**: Consensus can be arbitrarily overridden by authorities
-  - *Evidence*: Unrestricted ability to override consensus decisions
-  - *Examples*: Centralized systems with admin controls
-
-#### **nc_5** - Dependency on Coordination
-**Question**: To what extent does consensus depend on ongoing human coordination?
-
-**Scoring Criteria:**
-- **Score 0**: Fully automated consensus without human intervention
-  - *Evidence*: Consensus operates autonomously without human input
-  - *Examples*: Bitcoin mining, automated PoS consensus
-
-- **Score 1**: Human monitoring only - consensus operates autonomously
-  - *Evidence*: Humans observe but don't intervene in consensus
-  - *Examples*: Well-functioning public blockchains with monitoring
-
-- **Score 2**: Periodic human input for parameter updates or optimization
-  - *Evidence*: Occasional human adjustments to consensus parameters
-  - *Examples*: Chains with periodic governance parameter updates
-
-- **Score 3**: Active coordination required between human participants
-  - *Evidence*: Ongoing human communication needed for consensus
-  - *Examples*: Consortium chains requiring coordination between members
-
-- **Score 4**: Manual operation requiring human negotiation for each decision
-  - *Evidence*: Consensus decisions require human negotiation
-  - *Examples*: Manual approval processes, committee-based decisions
-
-### Scalability (Fitness)
-
-#### **ns_1** - Throughput Constraints
-**Question**: To what extent is system capacity limited by design rather than economic incentives?
-
-**Scoring Criteria:**
-- **Score 0**: Capacity allocation determined entirely by market mechanisms
-  - *Evidence*: Transaction fees determine priority, no hard limits
-  - *Examples*: Bitcoin fee market, Ethereum gas auction
-
-- **Score 1**: Elastic scaling automatically adjusts based on economic parameters
-  - *Evidence*: Automatic capacity adjustments based on demand/pricing
-  - *Examples*: Some Layer 2 solutions with elastic block sizes
-
-- **Score 2**: Hybrid approach combining technical limits with economic factors
-  - *Evidence*: Technical constraints modified by economic incentives
-  - *Examples*: Chains with adjustable block size limits
-
-- **Score 3**: Technical design constraints with some economic considerations
-  - *Evidence*: Hard technical limits with minor economic adjustments
-  - *Examples*: Fixed TPS with priority fee mechanisms
-
-- **Score 4**: Strict technical capacity limits regardless of economic incentives
-  - *Evidence*: Hard-coded capacity limits that cannot be exceeded
-  - *Examples*: Enterprise chains with fixed throughput limits
-
-#### **ns_2** - Technical Scalability
-**Question**: To what extent can the system handle increased load without performance degradation?
-
-**Scoring Criteria:**
-- **Score 0**: Linear scaling with no inherent bottlenecks
-  - *Evidence*: Performance scales directly with resources added
-  - *Examples*: Horizontal scaling systems, parallel processing architectures
-
-- **Score 1**: Predictable, graceful degradation as load increases
-  - *Evidence*: Performance degrades predictably, maintains core functions
-  - *Examples*: Well-designed systems with known scaling curves
-
-- **Score 2**: Scaling efficiency varies significantly based on workload characteristics
-  - *Evidence*: Performance depends on transaction types and patterns
-  - *Examples*: Systems optimized for specific transaction patterns
-
-- **Score 3**: System prone to congestion bottlenecks affecting all participants
-  - *Evidence*: Network-wide performance issues under high load
-  - *Examples*: Ethereum during high congestion periods
-
-- **Score 4**: Fundamental architectural bottlenecks prevent effective scaling
-  - *Evidence*: Core design limitations that cannot be overcome
-  - *Examples*: Sequential processing architectures, single-threaded systems
+## NETWORK DOMAIN — Protocol Determinism (Machine ↔ Machine)
+
+The Network domain measures how fully the protocol constrains outcomes without external layers, special committees, or operational intervention. A score of 0 means the machine guarantees correctness by construction. A score of 4 means outcomes depend on mutable shared state, sequential bottlenecks, and frequent exceptional handling.
+
+### Architecture (na) — Structure
+
+| Score | Anchor | Reference Examples |
+|-------|--------|--------------------|
+| **0** | UTXO-style independent spends; contention resolved at record level; no shared mutable state; verifiable without global state | Bitcoin |
+| **1** | Mostly deterministic; constraints are formal and stable; bounded operational choices within protocol rules | BSV, Litecoin |
+| **2** | Deterministic core but relies on middleware, coordinators, or recommended patterns for normal operation | Ethereum (post-merge), Corda |
+| **3** | Scaling or security depends on multi-party coordination or adjunct layers (L2/bridges required, not optional) | Polygon, Arbitrum, most enterprise chains |
+| **4** | Shared mutable global state; sequential execution bottleneck; contention is systemic; outcomes depend on implementation choices | ASX CHESS, custom monolithic enterprise platforms |
+
+### Consensus (nc) — Process
+
+| Score | Anchor | Reference Examples |
+|-------|--------|--------------------|
+| **0** | Objective work-based ordering (PoW); finality determined by energy expenditure; competitive incentive to invest in infrastructure creates scaling pressure by construction | Bitcoin PoW |
+| **1** | Formal protocol rules with narrow parameterisation; consensus participants have limited operational discretion; infrastructure investment incentives mostly intact | BSV (PoW with large blocks) |
+| **2** | Hybrid mechanisms; some governance coupling to validator selection but bounded by protocol rules; mixed incentive structure | Ethereum PoS, Cosmos Tendermint |
+| **3** | Stake-weighted voting with delegation; returns proportional to weight not compute; rational strategy is rent-seeking over infrastructure reinvestment; governance decisions affect security | Cardano, Solana, consortium BFT chains |
+| **4** | Subjective/social finality; heavy governance coupling to consensus security; committee-based block production; no competitive pressure to scale infrastructure; named authorities control consensus | Private chains with designated authorities, Stripe Tempo (4 Stripe-controlled validators) |
+
+### Scalability (ns) — Persistence
+
+| Score | Anchor | Reference Examples |
+|-------|--------|--------------------|
+| **0** | Scales via native parallelism without mandatory off-chain fragmentation; pipeline architecture with measurable stage capacities | BSV (unbounded blocks, SPV) |
+| **1** | Linear scaling with hardware; minor coordination overhead; no mandatory fragmentation; predictable graceful degradation | Stripe Tempo (20k TPS testnet), Solana |
+| **2** | Scales within bounds but requires operational tuning; some throughput ceiling from protocol design | Ethereum L1, Hyperledger Fabric |
+| **3** | Requires fragmentation/bridges/L2 as baseline operation; throughput limited by base-layer protocol | Ethereum ecosystem (L2-dependent), most consortium pilots |
+| **4** | Hard protocol-level throughput ceiling; scaling requires fundamental architectural changes or mandatory off-chain layers | ASX CHESS, early enterprise chains |
 
 ---
 
-## SYSTEM STATE DOMAIN (Human ↔ Machine)
+## SYSTEM STATE DOMAIN — Mutation Authority (Human ↔ Machine)
 
-### Execution Model (Structure)
+The System State domain measures what has authority to cause state transitions — both data-level inputs and protocol-level changes. A blockchain is a complete economic system: the protocol, the node operators, and the users. The critical question is the scope of mutation authority: who can write data to the system, who can change the execution environment, who can modify network parameters, and who can mutate the protocol itself. A protocol should be a fixed set of rules and data structures. Mutation authority measures how much discretion has been introduced into that fixed system.
 
-#### **se_2** - Execution Architecture
-**Question**: What type of execution model does the system use for state transitions?
+### Execution (se) — Structure
 
-**Scoring Criteria:**
-- **Score 0**: Script-based predicates - stateless execution via cryptographic proofs
-  - *Evidence*: UTXO model, Bitcoin Script, predicate-based validation
-  - *Examples*: Bitcoin, Lightning Network
+| Score | Anchor | Reference Examples |
+|-------|--------|--------------------|
+| **0** | Bounded execution model; no halting problem; no reentrancy class; no bridge/protocol dependencies; deterministic script execution | Bitcoin Script |
+| **1** | Safe execution with formal constraints; upgrade paths are protocol-governed; minimal attack surface | BSV (bounded script) |
+| **2** | Turing-complete execution with safeguards; some reentrancy risk mitigated by patterns; bridge dependencies for specific use cases | Ethereum (EVM with gas limits), Corda |
+| **3** | Execution environment suffers known vulnerability classes; requires constant monitoring; bridge protocols or trusted intermediaries as operational dependency | Platforms dependent on custodial intermediaries (e.g., Tempo/Bridge), complex DeFi composability |
+| **4** | Halting-problem exposure; reentrancy attacks demonstrated; state explosion risk; bridge failures cause systemic loss; upgrade hazards; trust-dependent logic | The DAO (pre-fork), early Solidity platforms |
 
-- **Score 1**: Bounded state machine - VM execution with gas limits and bounded state
-  - *Evidence*: Virtual machine with resource limits, deterministic execution
-  - *Examples*: Ethereum Virtual Machine (EVM)
+### Mutation Authority (sm) — Process ← THE DIAGNOSTIC VARIABLE
 
-- **Score 2**: Hybrid state model - mix of on-chain and off-chain state with defined sync
-  - *Evidence*: Combination of on-chain consensus with off-chain computation
-  - *Examples*: State channels, some Layer 2 solutions
+**sm is the single strongest predictor of project failure.** In the 83-project dataset: sm ≤ 2 → 0% failure rate; sm = 3 → 35.7%; sm = 4 → 73.5%.
 
-- **Score 3**: Mutable database - traditional database with API-mediated state changes
-  - *Evidence*: SQL-like state management, API-controlled mutations
-  - *Examples*: Many enterprise blockchain solutions
+| Score | Anchor | Reference Examples |
+|-------|--------|--------------------|
+| **0** | Protocol immutable; no party can mutate core rules or data structures; data ingress governed by deterministic validation; operational governance via legal framework without protocol mutation | Uniswap V2/V3 (immutable contracts, zero admin keys) |
+| **1** | Mutation scope narrow and formally constrained; only off-chain parameters adjustable; data input rules fixed by protocol; decision authority clearly allocated with minimal discretion | Bitcoin (BIP process, no admin keys) |
+| **2** | Network parameters mutable within protocol-defined bounds (gas limits, block size); oracle/data feed rules require some coordination; moderate governance overhead | Ethereum (EIP process, community governance), BSV (miner-governed parameters) |
+| **3** | Execution environment and economic rules mutable (VM upgrades, fee structures); protocol changes achievable through governance process; data input rules subject to committee decisions; authority unclear; cartel capture risk | Consortium chains (R3 Corda network), Aave (governance token control), most enterprise pilots |
+| **4** | Core protocol arbitrarily mutable; any rule or data structure can change through governance or admin keys; consensus rules, architecture, and scalability subject to discretionary mutation; data ingress rules politically determined; upgrade authority concentrated | ASX CHESS, FTX, Celsius, Stripe Tempo (single entity, no published governance framework) |
 
-- **Score 4**: Trust-dependent logic - execution depends on trusted intermediaries
-  - *Evidence*: Manual approval processes, trusted third-party execution
-  - *Examples*: Systems requiring manual transaction approval
+### Economic Fitness (sf) — Persistence
 
----
-
-## LAW DOMAIN (Human ↔ Human)
-
-### Legal Form (Structure)
-
-#### **ll_1** - Blockchain Legal Classification
-**Question**: To what extent is the blockchain classified as a commodity versus security?
-
-**Scoring Criteria:**
-- **Score 0**: Definitively classified as commodity by relevant authorities
-  - *Evidence*: Official regulatory determination as commodity
-  - *Examples*: Bitcoin (CFTC classification), Ethereum (post-merge clarity)
-
-- **Score 1**: Network token has established non-security status with regulatory clarity
-  - *Evidence*: Utility token classification, no-action letters
-  - *Examples*: Tokens with clear utility classification
-
-- **Score 2**: Operating under regulatory safe harbor with defined parameters
-  - *Evidence*: Safe harbor provisions, regulatory sandbox participation
-  - *Examples*: Projects in regulatory sandbox programs
-
-- **Score 3**: Subject to securities regulation with established compliance obligations
-  - *Evidence*: Registered as security, compliance framework established
-  - *Examples*: Tokenized securities with proper registration
-
-- **Score 4**: Classification pending regulatory determination or legislative action
-  - *Evidence*: Uncertain status, awaiting regulatory clarity
-  - *Examples*: Many altcoins awaiting classification decisions
-
-#### **ll_4** - Security Reclassification Risk
-**Question**: To what extent could the blockchain be reclassified as a security?
-
-**Scoring Criteria:**
-- **Score 0**: Commodity classification protected by specific legislation
-  - *Evidence*: Statutory protection, explicit commodity status
-  - *Examples*: Bitcoin with CFTC jurisdiction clearly established
-
-- **Score 1**: Classification established through formal regulatory precedent
-  - *Evidence*: No-action letters, formal regulatory guidance
-  - *Examples*: Tokens with official regulatory guidance
-
-- **Score 2**: Current status dependent on maintaining specific technical characteristics
-  - *Evidence*: Classification conditional on decentralization or technical features
-  - *Examples*: Tokens classified as utility based on current use patterns
-
-- **Score 3**: Could be reclassified as security based on usage patterns or governance
-  - *Evidence*: Vulnerable to Howey test based on evolution
-  - *Examples*: Tokens that could fail Howey test if governance changes
-
-- **Score 4**: Classification entirely subject to pending legislation or enforcement
-  - *Evidence*: Status depends on pending regulatory actions
-  - *Examples*: Tokens awaiting CLARITY Act or similar legislation
+| Score | Anchor | Reference Examples |
+|-------|--------|--------------------|
+| **0** | Unit economics viable at scale without subsidy; fee predictability; micropayment-viable; cost-to-verify proportional to value | Bitcoin (fee market), BSV (sub-cent fees) |
+| **1** | Economically coherent; sustainable fee model; minor scaling friction; viable for most business models; real revenue from real activity | Stripe Tempo (no token, $0.001/tx, $400B stablecoin volume), Uniswap (trading fees) |
+| **2** | Economics work for high-value transactions; micropayments not viable; some subsidy or cross-subsidisation required | Ethereum (high gas fees limit use cases), most enterprise pilots (unclear revenue model) |
+| **3** | Unit economics depend on token appreciation or external subsidy; fee volatility; business models constrained by throughput costs | Many DeFi protocols (token incentive dependent), Solana (VC-subsidised) |
+| **4** | Economics only viable via continuous external support; transaction costs prohibit adoption; no path to micropayment viability; Ponzi dynamics | Terra/Luna (algorithmic peg), Celsius (yield from new deposits), ASX CHESS ($250M sunk, no revenue) |
 
 ---
 
-## Scoring Validation Framework
+## LAW DOMAIN — Enforceability (Human ↔ Human)
 
-### Quality Control Measures
+The Law domain evaluates whether blockchain outcomes survive contact with the legal system. It examines whether the asset has standing as property, whether established remedies exist to correct disputes, and whether liability attaches to actors participating in the system.
 
-1. **Evidence Documentation**: Each score must be supported by specific evidence
-2. **Consistency Checks**: Cross-validation between related questions
-3. **Temporal Validation**: Scores must reflect project status at assessment date
-4. **Source Verification**: Primary sources required for critical determinations
+**The critical primitive is attribution.** Commodity transfers in law occur through contract events represented by signatures that attribute the act of transfer to identifiable parties. A digital asset system maintains legal standing only to the extent that it preserves a continuous chain of attributable signatures linking ownership from one party to the next. Break the chain of signatures and you break the chain of title.
 
-### Statistical Validation
+### Standing (ls) — Structure
 
-1. **Inter-rater Reliability**: Cohen's kappa > 0.7 required
-2. **Internal Consistency**: Cronbach's alpha for related question clusters
-3. **Predictive Validation**: Correlation with actual project outcomes
+| Score | Anchor | Reference Examples |
+|-------|--------|--------------------|
+| **0** | Asset legally recognised as property; continuous chain of attributable signatures; parties identifiable through standard legal process | Bitcoin (CFTC commodity classification, UTXO chain of title) |
+| **1** | Standing established with standard evidentiary work; attribution chain mostly intact; identifiable through compulsory process | Regulated stablecoins (USDC), enterprise platforms under financial regulation (Stripe/Tempo) |
+| **2** | Standing arguable but requires significant evidence gathering; some attribution gaps; relies on intermediary records | Ethereum tokens (mixed classification), cross-border enterprise deployments |
+| **3** | Fragmented attribution; cross-jurisdiction complexity; title ambiguous through bridge crossings or custodial opacity | Multi-chain DeFi positions, L2 bridged assets |
+| **4** | Non-attributable; no party to be charged; ownership record does not identify legally responsible actors; standing collapses | Privacy coins (Monero), mixer protocols (Tornado Cash) |
 
-### Data Quality Requirements
+### Remedy (lr) — Process
 
-- **Minimum 40 of 45 questions** must have deterministic scores
-- **At least 3 primary sources** required for high-impact classifications
-- **Documentation trail** required for all scoring decisions
-- **Periodic re-scoring** for active projects (annual review)
+| Score | Anchor | Reference Examples |
+|-------|--------|--------------------|
+| **0** | Established legal processes available: injunction, tracing, restitution, constructive trust; property rights recoverable through courts | Bitcoin (multiple successful court recoveries, BSV court orders enforced) |
+| **1** | Remedies available through standard process; some operational complexity; courts have jurisdiction and precedent | Regulated financial platforms, enterprise chains under clear jurisdiction |
+| **2** | Remedies exist but costly and slow; some dispute categories lack clear process; cross-border enforcement friction | Multi-jurisdiction enterprise deployments, regulated DeFi |
+| **3** | Remedy practically unreliable; evidence beyond compulsion; selective enforcement only (insiders recover, others do not) | Most DeFi protocols (code-is-law), FTX (insider recovery only) |
+| **4** | No meaningful legal remedy; code-as-law finality; recovery depends on discretionary insider intervention or ad hoc rollback | The DAO (hard fork as "remedy"), anonymous protocols |
+
+### Liability Precision (lp) — Persistence
+
+| Score | Anchor | Reference Examples |
+|-------|--------|--------------------|
+| **0** | Clear liability assignment; actors identifiable and subject to jurisdiction; IP rights respected; compliance obligations understood | Bitcoin (clear property law framework), regulated enterprise platforms |
+| **1** | Liability established with standard legal analysis; obligations attach to identifiable parties; regulatory framework stable | Stripe Tempo (Stripe bears liability as regulated entity), major exchange platforms |
+| **2** | Liability ambiguous in some areas; emerging regulatory framework; IP questions partially resolved; compliance costs significant | Ethereum ecosystem (evolving regulation), cross-border enterprise deployments |
+| **3** | Liability unclear; actors may be beyond jurisdiction; money transmission questions unresolved; sanctions exposure uncertain | DeFi protocols with anonymous teams, unregistered token offerings |
+| **4** | No identifiable liable party; IP violations endemic; money secrecy rules breached; sanctions non-compliance; system cannot persist legally | Terra/Luna (no liable party post-collapse), Tornado Cash |
 
 ---
 
-## Conversion from Legacy Data
+## Scoring Aggregation
 
-### Mapping Legacy Fields to SPF Scores
+### Cell → Domain → Overall
 
-When converting existing CSV data to SPF scores, use the following mapping guidelines:
+1. **Cell scores**: Integer 0–4 for each of the nine cells
+2. **Domain scores**: Arithmetic mean of three cells within each domain (Network, System State, Law)
+3. **Overall score**: Arithmetic mean of all nine cell scores (equivalent to mean of three domain scores)
 
-1. **Technical Platform** → Execution Architecture (se_2)
-2. **Consensus Mechanism** → Multiple consensus questions (nc_1-nc_5)
-3. **Status** → Multiple fitness questions based on failure/success reasons
-4. **Consortium Size** → Governance questions (sg_1-sg_5)
-5. **Failure Category** → Domain-specific risk patterns
+### Threshold Rule
 
-### Missing Data Handling
+**Overall score ≥ 2.5 indicates elevated failure risk.** In the dataset:
+- Sensitivity: 92.5% (captures 37 of 40 failures)
+- Specificity among resolved projects: 100% (zero false positives)
+- All 5 "false positives" in the full dataset are unresolved projects (still in pilot/development)
 
-- **Score 2 (Bounded Discretion)**: Default for missing data with moderate confidence
-- **Evidence Required**: Score 0 or 4 require strong evidence
-- **Conservative Bias**: When uncertain, score toward higher risk (higher number)
+### Extensions (V2 Methodology)
 
-This rubric ensures systematic, reproducible conversion of descriptive project data into the deterministic SPF Matrix format required for statistical analysis and predictive modeling.
+Three empirically-derived scoring extensions improve predictive accuracy. See `docs/brem-framework-extensions.md` for full details:
+
+1. **Asymmetric Cell Weighting** — High scores penalise more than low scores help (F1: 0.902 → 0.914). nc has the highest asymmetry ratio (8.22×).
+2. **Domain Ceiling Rule** — Any single domain ≥ 3.0 triggers elevated risk regardless of overall score (F1: 0.914 → 0.929).
+3. **Dependency Decomposition** — For multi-platform systems, sm_eff = min(4, sm_base + ⌈log₂N⌉) where N = platforms per settlement function.
+
+---
+
+## Citation
+
+Price, T. (2026). Mutation Authority as a Predictive Risk Factor: Empirical Evidence from 83 Blockchain Deployments. *IEEE ICBC 2026 AI-R2D2 Workshop*. [Submitted]
+
+## License
+
+Scoring rubric: CC BY 4.0
