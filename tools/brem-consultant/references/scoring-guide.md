@@ -189,8 +189,7 @@ Measures whether liability is clearly defined and attributable.
 
 ## Computing the Overall Score
 
-1. Average the 5 sub-question scores within each cell to get 9 cell scores.
-   (If scoring at the cell level directly, use the cell score as-is.)
+1. Each cell produces a single 0–4 integer score through the branching decision logic (gating → refinement/severity → override).
 2. Average cells within each row for domain scores:
    - Network domain = (na + nc + ns) / 3
    - System State domain = (se + sm + sf) / 3

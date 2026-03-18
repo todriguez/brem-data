@@ -38,7 +38,8 @@ Each cell is scored 0–4 (increasing risk). See [`scoring-rubric.md`](data/scor
 ├── data/
 │   ├── brem-dataset-v3.csv              # Full 83-project scored dataset
 │   ├── CODEBOOK.md                      # Dataset documentation and methodology
-│   └── scoring-rubric.md               # Cell-level scoring anchors (0-4 scale)
+│   ├── scoring-rubric.md               # Cell-level scoring anchors (0-4 scale)
+│   └── scoring-instrument.md           # Branching decision logic for cell-level scoring
 ├── paper/
 │   ├── src/
 │   │   ├── brem-ieee-paper.tex          # LaTeX source (IEEEtran format)
@@ -48,7 +49,8 @@ Each cell is scored 0–4 (increasing risk). See [`scoring-rubric.md`](data/scor
 │   ├── brem-assessment-project-acacia.md    # BIS/RBA — CBDC settlement (2.44)
 │   ├── brem-assessment-project-guardian.md  # MAS — multi-platform DeFi (2.33)
 │   ├── brem-assessment-fnality-international.md  # BoE-supervised — wholesale settlement (2.00)
-│   └── brem-assessment-stripe-tempo.md      # Stripe/Paradigm — payments L1 (2.22)
+│   ├── brem-assessment-stripe-tempo.md      # Stripe/Paradigm — payments L1 (2.11)
+│   └── brem-assessment-arc-network.md       # Circle — stablecoin finance L1 (2.00)
 ├── docs/
 │   └── brem-framework-extensions.md     # Three scoring extensions (V2 methodology)
 ├── tools/
@@ -61,10 +63,11 @@ Each cell is scored 0–4 (increasing risk). See [`scoring-rubric.md`](data/scor
 **To verify claims in the paper:**
 
 1. **Scoring methodology**: [`data/scoring-rubric.md`](data/scoring-rubric.md) — cell-level anchor definitions (what each 0–4 score means for each cell, with reference examples)
-2. **Dataset**: [`data/brem-dataset-v3.csv`](data/brem-dataset-v3.csv) — all 83 projects with scores, outcomes, evidence summaries, and data sources
-3. **Dataset documentation**: [`data/CODEBOOK.md`](data/CODEBOOK.md) — column definitions, outcome classification criteria, key statistics, limitations
-4. **Scoring extensions**: [`docs/brem-framework-extensions.md`](docs/brem-framework-extensions.md) — asymmetric weighting, domain ceiling, dependency decomposition
-5. **Worked assessments**: [`assessments/`](assessments/) — four full BREM assessments demonstrating the scoring process cell-by-cell with evidence citations
+2. **Scoring instrument**: [`data/scoring-instrument.md`](data/scoring-instrument.md) — branching decision logic for cell-level scoring (4–5 diagnostic questions per cell with gating, refinement, and override logic)
+3. **Dataset**: [`data/brem-dataset-v3.csv`](data/brem-dataset-v3.csv) — all 83 projects with scores, outcomes, evidence summaries, and data sources
+4. **Dataset documentation**: [`data/CODEBOOK.md`](data/CODEBOOK.md) — column definitions, outcome classification criteria, key statistics, limitations
+5. **Scoring extensions**: [`docs/brem-framework-extensions.md`](docs/brem-framework-extensions.md) — asymmetric weighting, domain ceiling, dependency decomposition
+6. **Worked assessments**: [`assessments/`](assessments/) — five full BREM assessments demonstrating the scoring process cell-by-cell with evidence citations
 
 ## Threshold Performance
 

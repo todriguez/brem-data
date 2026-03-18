@@ -170,7 +170,7 @@ Stripe is one of the most established fintech companies globally.
 
 ## Scoring Revision (V2): After Architectural Decomposition
 
-The V1 scores (overall 1.89) were too generous. Examining how stablecoins actually exist on Tempo reveals that:
+The V1 scores (overall 1.89) were too generous. The V2 revision (overall 2.11) corrects two cell scores. Examining how stablecoins actually exist on Tempo reveals that:
 
 1. **Stablecoins on Tempo are Bridge-issued TIP-20 representations**, not native USDC/USDT. Bridge holds the real assets on Ethereum/Solana and mints custodial IOUs on Tempo. Settlement on Tempo is settlement of Bridge's liability, not of the underlying stablecoins.
 
@@ -199,7 +199,7 @@ The V1 scores (overall 1.89) were too generous. Examining how stablecoins actual
 | **Network** | 2.00 | (2+4+1)/3 = **2.33** |
 | **System State** | 2.33 | (3+4+1)/3 = **2.67** |
 | **Law** | 1.33 | **1.33** |
-| **Overall** | 1.89 | 20/9 = **2.22** |
+| **Overall** | 1.89 | 19/9 = **2.11** |
 
 ---
 
@@ -218,7 +218,7 @@ However, there IS a secondary dependency: **Commonware** (external team providin
 - Network: 2.33 — below 3.0 ✓
 - System State: 2.67 — below 3.0 ✓
 - Law: 1.33 — below 3.0 ✓
-- Overall: 2.22 — below 2.5 ✓
+- Overall: 2.11 — below 2.5 ✓
 
 **PASSES all thresholds.** But System State at 2.67 is approaching the danger zone. The gap between System State (2.67) and the 3.0 ceiling is only 0.33 points.
 
@@ -226,9 +226,9 @@ However, there IS a secondary dependency: **Commonware** (external team providin
 
 sm=4 and nc=4 and se=3 all receive full w_up penalties. nc has the highest asymmetry ratio in the entire framework (8.22×), meaning the nc=4 score pulls disproportionately hard. sf=1 and ls=1 receive discounted w_down protection.
 
-Asymmetric weighted overall: ~2.45 (still below 2.7 threshold, but the nc=4 penalty is severe).
+Asymmetric weighted overall: ~2.35 (still below 2.7 threshold, but the nc=4 penalty is severe).
 
-**PASSES asymmetric threshold — but barely.**
+**PASSES asymmetric threshold.**
 
 ---
 
@@ -236,17 +236,17 @@ Asymmetric weighted overall: ~2.45 (still below 2.7 threshold, but the nc=4 pena
 
 | Method | V1 | V2 | Threshold | V2 Status |
 |--------|----|----|-----------|-----------|
-| Base | 1.89 | 2.22 | 2.5 | **PASSES** (moderate margin) |
+| Base | 1.89 | 2.11 | 2.5 | **PASSES** (comfortable margin) |
 | Domain ceiling | max 2.33 | max 2.67 | 3.0 | **PASSES** (narrower margin) |
-| Asymmetric weighted | ~2.05 | ~2.45 | 2.7 | **PASSES** (barely) |
+| Asymmetric weighted | ~2.05 | ~2.35 | 2.7 | **PASSES** |
 
-**V2 assessment: Still below threshold on all rules, but the margin has narrowed significantly.** The 0.33-point revision (1.89→2.22) came entirely from recognising that the "blockchain" is architecturally a custodial ledger with database-style consensus. sm=4, nc=4, se=3 is a concerning cluster in the System State and consensus cells.
+**V2 assessment: Still below threshold on all rules.** The 0.22-point revision (1.89→2.11) came from recognising that the "blockchain" is architecturally a custodial ledger with database-style consensus. sm=4, nc=4, se=3 is a concerning cluster in the System State and consensus cells.
 
 ---
 
 ## The sm=4 Paradox
 
-Tempo scores 2.22 overall (V2) — below the 2.5 threshold but with narrower margin than V1. sm=4 AND nc=4. In the dataset:
+Tempo scores 2.11 overall (V2) — below the 2.5 threshold. sm=4 AND nc=4. In the dataset:
 
 - sm ≤ 2: **0% failure rate** (n=7)
 - sm = 3: **35.7% failure rate** (n=42)
@@ -259,10 +259,10 @@ Tempo joins a small group of projects that score sm=4 but have low overall score
 | BNY Mellon Tokenized Deposits | 2.11 | 4 | 3 | 2 | 1.00 | not_failed |
 | Citi Token Services | 2.11 | 4 | 3 | 2 | 1.00 | not_failed |
 | Bahamas Sand Dollar | 2.11 | 4 | 3 | 2 | 1.33 | not_failed |
-| **Stripe Tempo (V2)** | **2.22** | **4** | **4** | **1** | **1.33** | **Pre-production** |
+| **Stripe Tempo (V2)** | **2.11** | **4** | **4** | **1** | **1.33** | **Pre-production** |
 | HSBC FX Everywhere | 2.33 | 4 | 3 | 3 | 1.00 | **failed** |
 
-Even at the revised 2.22, Tempo remains below all three threshold rules. It would still rank among the lowest-scoring sm=4 projects in the dataset — only BNY Mellon and Citi Token score lower (2.11), and both have nc=3 (consortium consensus) rather than Tempo's nc=4.
+At the revised 2.11, Tempo ties with BNY Mellon and Citi Token Services — but those projects have nc=3 (consortium consensus) while Tempo has nc=4 (single-entity validators). Tempo is the lowest-scoring project in the dataset with both sm=4 and nc=4.
 
 **Why the low overall despite sm=4 AND nc=4?** Tempo's sf=1 (no token, real revenue) and ns=1 (20,000 TPS testnet) are extraordinarily strong for an enterprise blockchain. Most enterprise projects score ns=2-3 and sf=2-4. The purpose-built payment architecture addresses the architecture→scalability→economics cascade that kills most enterprise chains. Meanwhile, the strong Law domain (1.33) provides institutional credibility — though per the asymmetric weighting extension, legal clarity "cannot polish a turd."
 
@@ -293,24 +293,24 @@ No token = no sf→sm cascade. Economic stress cannot trigger governance exploit
 
 | Project | N | sm | nc | ns | sf | Overall | Key Difference |
 |---------|---|----|----|----|----|---------|----------------|
-| **Stripe Tempo (V2)** | 1 | **4** | **4** | **1** | **1** | **2.22** | Single entity controls everything, extreme scalability, no token |
+| **Stripe Tempo (V2)** | 1 | **4** | **4** | **1** | **1** | **2.11** | Single entity controls everything, extreme scalability, no token |
 | Fnality | 1 | 3 | 3 | 2 | 2 | 2.00 | Consortium (24 shareholders), BoE settlement finality |
 | Guardian (modular) | 7+ | 3-4 | 3 | 3 | 2 | 2.33 | Multi-platform, sovereign regulator, modular |
 | Acacia (systemic) | 5 | 4 | 3 | 3 | 2 | 2.44 | Multi-platform, CBDC, systemic dependency |
 | ASX CHESS | 1 | 4 | 4 | 4 | 4 | 3.78 | Single entity, all cells elevated |
 
-**Tempo vs Fnality:** Both are N=1, but Tempo scores higher overall (2.22 vs 2.00) despite better scalability (ns=1 vs 2) and economics (sf=1 vs 2). The reason: Tempo's nc=4 and sm=4 reflect single-entity control, while Fnality's nc=3 and sm=3 reflect bounded consortium governance with BoE oversight. Fnality's governance structure is worth 0.22 points of risk reduction — a meaningful margin.
+**Tempo vs Fnality:** Both are N=1, but Tempo scores higher overall (2.11 vs 2.00) despite better scalability (ns=1 vs 2) and economics (sf=1 vs 2). The reason: Tempo's nc=4 and sm=4 reflect single-entity control, while Fnality's nc=3 and sm=3 reflect bounded consortium governance with BoE oversight. Fnality's governance structure is worth 0.11 points of risk reduction.
 
 **Tempo vs ASX CHESS:** Same sm=4 and nc=4, same single-entity control pattern. But Tempo diverges on execution: ns=1 vs ns=4 (Tempo solves scalability), sf=1 vs sf=4 (Tempo has real revenue), se=3 vs se=4 (Tempo's Bridge dependency is bounded, not fully manual). The 1.56-point gap between them is driven entirely by Tempo's technical execution and economic model.
 
-**Tempo vs Guardian:** Tempo scores lower (2.22 vs 2.33) despite having worse governance (sm=4, nc=4 vs sm=3-4, nc=3). Tempo's advantage is N=1 (no multi-platform dependency), superior scalability (ns=1 vs 3), and stronger economics (sf=1 vs 2). Guardian's advantage is sovereign regulatory oversight (MAS) and modular architecture that isolates platform failures.
+**Tempo vs Guardian:** Tempo scores lower (2.11 vs 2.33) despite having worse governance (sm=4, nc=4 vs sm=3-4, nc=3). Tempo's advantage is N=1 (no multi-platform dependency), superior scalability (ns=1 vs 3), and stronger economics (sf=1 vs 2). Guardian's advantage is sovereign regulatory oversight (MAS) and modular architecture that isolates platform failures.
 
 ---
 
 ## De-Risking Recommendations (V2)
 
 ### 1. Expand Validator Set with Independent Operators — CRITICAL (nc: 4→2-3, sm: 4→3)
-**The single highest-impact action.** nc=4 is the most damaging cell in the profile (8.22× asymmetry ratio). Moving from 4 Stripe-controlled validators to a diverse set of 15+ independent validators would drop nc from 4→2 and partially constrain sm. Target: no single entity controls >33% of validators at mainnet. This single change would move the overall score from 2.22 toward ~1.89 and remove the "database with distributed witnesses" characterisation.
+**The single highest-impact action.** nc=4 is the most damaging cell in the profile (8.22× asymmetry ratio). Moving from 4 Stripe-controlled validators to a diverse set of 15+ independent validators would drop nc from 4→2 and partially constrain sm. Target: no single entity controls >33% of validators at mainnet. This single change would move the overall score from 2.11 toward ~1.89 and remove the "database with distributed witnesses" characterisation.
 
 ### 2. Publish Governance Framework and Admin Key Structure — CRITICAL (sm: 4→3)
 Disclose multisig structure, upgrade procedures, and emergency halt protocols. Introduce time-locked changes with community/partner veto mechanisms. This is table stakes for a system handling institutional settlement. Even if Stripe retains significant control, formalising constraints moves sm from 4 (unconstrained) to 3 (bounded discretion).
@@ -334,13 +334,13 @@ Who bears the loss if a consensus failure causes incorrect settlement? With nc=4
 
 ## Summary
 
-Stripe Tempo presents an unusual BREM profile: **strong scalability and economics (ns=1, sf=1) paired with maximum centralisation across both governance and consensus (sm=4, nc=4, se=3)**. The V2 overall score of **2.22** is below all three threshold rules but with narrower margins than the V1 assessment (1.89) suggested.
+Stripe Tempo presents an unusual BREM profile: **strong scalability and economics (ns=1, sf=1) paired with maximum centralisation across both governance and consensus (sm=4, nc=4, se=3)**. The V2 overall score of **2.11** is below all three threshold rules.
 
-The V1→V2 revision was driven by recognising what Tempo actually is architecturally: TIP-20 tokens are custodial IOUs issued by Bridge, not native stablecoins; "Simplex BFT" with 4 Stripe-controlled validators is a replication protocol, not meaningful Byzantine consensus; and execution depends on Bridge's solvency as a trusted intermediary.
+The 0.22-point V1→V2 revision (1.89→2.11) was driven by recognising what Tempo actually is architecturally: TIP-20 tokens are custodial IOUs issued by Bridge, not native stablecoins; "Simplex BFT" with 4 Stripe-controlled validators is a replication protocol, not meaningful Byzantine consensus; and execution depends on Bridge's solvency as a trusted intermediary.
 
 The no-token design eliminates the DeFi cascade. The purpose-built payment architecture breaks the enterprise scalability cascade. The institutional framework provides strong legal standing. What remains is the "database with distributed witnesses" risk: Stripe controls the rules (sm=4), the consensus (nc=4), and the custody (se=3). The System State domain at 2.67 is 0.33 points from the domain ceiling trigger.
 
-**De-risking path:** Expanding the validator set to independent operators (nc: 4→2) and publishing governance constraints (sm: 4→3) plus Bridge reserve transparency (se: 3→2) would move the overall score from 2.22 toward ~1.67, well into the low-risk zone. The path is clear, achievable, and entirely within Stripe's control.
+**De-risking path:** Expanding the validator set to independent operators (nc: 4→2) and publishing governance constraints (sm: 4→3) plus Bridge reserve transparency (se: 3→2) would move the overall score from 2.11 toward ~1.67, well into the low-risk zone. The path is clear, achievable, and entirely within Stripe's control.
 
 ---
 

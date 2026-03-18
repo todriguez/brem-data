@@ -9,6 +9,8 @@
 \usepackage{multirow}
 \usepackage{url}
 \usepackage{hyperref}
+\Urlmuskip=0mu plus 1mu\relax
+\def\UrlBreaks{\do\/\do-\do_\do.\do=\do?\do\&\do+}
 
 \begin{document}
 
@@ -21,7 +23,7 @@
 \maketitle
 
 \begin{abstract}
-We present the Blockchain Risk Evaluation Model (BREM), a multi-domain framework that scores blockchain implementations across nine canonical dimensions organized in a Structure-Process-Persistence matrix applied to three coordination layers: Network (machine-to-machine), System State (human-to-machine), and Law (human-to-human). Applied to 83 projects spanning enterprise consortia, central bank pilots, and DeFi protocols, the model identifies a failure threshold at an overall score of 2.5 or above, achieving 92.5\% sensitivity (F1 = 0.902) and 100\% specificity among resolved projects. The central diagnostic variable is mutation authority (sm), measuring the scope of discretion any single entity retains over protocol rules, data structures, and execution environment. Of 83 projects, 76 score sm at 3 or above, and no project with sm at 2 or below has failed. The model identifies correlated risk propagation chains converging on economic nonviability, and a DeFi-specific cascade reversal that produces the same failure mechanism through a different entry point. The three false negatives are architecturally sound systems that failed commercially, suggesting the model captures systemic coordination risk more reliably than market-driven failure.
+We present the Blockchain Risk Evaluation Model (BREM), a multi-domain framework that scores blockchain implementations across nine canonical dimensions organized in a Structure-Process-Persistence matrix applied to three coordination layers: Network (machine-to-machine), System State (human-to-machine), and Law (human-to-human). Applied to 83 projects spanning enterprise consortia, central bank pilots, and DeFi protocols, the model identifies a failure threshold at an overall score of 2.5 or above, achieving 92.5\% sensitivity (F1 = 0.902) and 100\% specificity among resolved projects. The central diagnostic variable is mutation authority (sm), measuring the scope of discretion any single entity retains over protocol rules, data structures, and execution environment. Of 83 projects, 76 score sm at 3 or above, and no project with sm at 2 or below has failed. The model identifies correlated risk propagation chains converging on economic nonviability, and preliminary evidence of a DeFi-specific cascade reversal ($n=12$) that produces the same failure mechanism through a different entry point. The three false negatives are architecturally sound systems that failed commercially, suggesting the model captures systemic coordination risk more reliably than market-driven failure.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -44,7 +46,7 @@ The rest of this paper is organized as follows. Section~II reviews related work.
     \item A novel 3$\times$3 risk evaluation framework (SPP $\times$ SPP) that integrates network architecture, system governance, and legal enforceability into nine canonical risk dimensions;
     \item An 83-project scored dataset spanning enterprise consortia, central bank pilots, and DeFi protocols, with 92.5\% sensitivity and 100\% specificity among resolved projects at the $\geq$2.5 threshold;
     \item Identification of mutation authority (sm) as the defining risk variable, with empirical evidence that no project with sm~$\leq$~2 has failed in the observed sample;
-    \item Discovery of a DeFi-specific cascade reversal (sf$\rightarrow$sm) that produces the same failure mechanism through a different causal entry point.
+    \item Preliminary identification of a DeFi-specific cascade reversal (sf$\rightarrow$sm), observed across all five DeFi failures ($n=12$ sub-dataset), that produces the same failure mechanism through a different causal entry point.
 \end{enumerate}
 
 \section{Related Work}
@@ -98,6 +100,18 @@ Mutation authority measures the scope of discretion any entity retains over: (1)
 
 This variable captures whether a system has committed to protocol-constrained state transition (sm = 0) or retains human override capability (sm $\geq$ 3). Unlike governance token concentration \cite{barbereau2022} or voting power distribution \cite{fritsch2024}, mutation authority measures \textit{operational} discretion: whether admin keys exist, whether contracts are upgradeable, whether parameters can be altered unilaterally. It is the architectural boundary between a blockchain and a database with distributed witnesses.
 
+\subsection{Scoring Extensions}\label{sec:extensions}
+
+The base BREM score is the unweighted mean of nine cells. Three methodological extensions refine this aggregation to address empirically observed limitations.
+
+\textbf{(1) Asymmetric cell weighting.} The flat average treats each cell's contribution as symmetric---a low score offsets a high score equally. However, the fail-pull (excess failure rate for above-median scores) consistently exceeds the surv-pull (excess survival rate for below-median scores) across all nine cells, i.e., no cell has an asymmetry ratio below 1.0. We apply asymmetric weights $w_\text{up}$ (proportional to fail-pull) when a cell is above the risk midpoint and $w_\text{down}$ (proportional to surv-pull) when below.
+
+\textbf{(2) Domain ceiling rule.} The flat average allows a strong domain to mask a failing domain. We augment the overall threshold with a domain-level check: flag if overall $\geq$~2.5 \textit{or} any single domain average $>$~3.0. This catches ``technical zombies''---projects with strong institutional backing but technically compromised infrastructure, where the Law domain dilutes the System State signal.
+
+\textbf{(3) Dependency decomposition.} When a project depends on $N$ independent platforms, the mutation surface scales non-linearly: $P(\text{break}) = 1 - (1-p)^N$. We apply a penalty $\text{sm}_\text{eff} = \min(4,\, \text{sm}_\text{base} + \lceil\log_2 N\rceil)$, where $N$ counts platforms that must \textit{interoperate for a single settlement function}, not total ecosystem platforms.
+
+These extensions are defined here as part of the formal methodology and evaluated empirically in Section~\ref{sec:ext-empirical}.
+
 \section{Dataset and Methodology}
 
 \subsection{Dataset Composition}
@@ -119,7 +133,7 @@ Scores are derived from publicly available evidence: technical whitepapers, prot
 
 The scoring process uses a structured assessment instrument with branching decision logic: for each cell, a series of diagnostic questions progressively narrows the appropriate score level, with early answers eliminating redundant downstream questions (e.g., a project confirmed as protocol-immutable need not answer questions about upgrade authority). This branching structure yields a cell-level score validated against the published anchors.
 
-The process proceeded in two phases. In Phase~1, 10 anchor projects spanning the full risk spectrum---confirmed failures (ASX CHESS, Terra/Luna, TradeLens), mid-range pilots (Project Acacia, BIS Mandala), and production survivors (Uniswap V2)---were scored independently with detailed evidence documentation. In Phase~2, the remaining 73 projects were scored using the same instrument, with anchor scores serving as calibration references to ensure consistent score-level application across projects with similar architectures and governance structures.
+Ten anchor projects spanning the full risk spectrum (failures: ASX CHESS, Terra/Luna, TradeLens; mid-range: Project Acacia, BIS Mandala; survivors: Uniswap V2) were scored first to calibrate score-level anchors; the remaining 73 were scored against these references.
 
 \textbf{Hindsight bias mitigation.} The scoring rubric assesses architectural and governance properties observable at the \textit{design stage}, not outcomes. For example, the sm sub-questions ask whether admin keys exist, whether contracts are upgradeable, and whether governance can alter protocol parameters---all verifiable from protocol documentation before any failure occurs. To further test for outcome bias, 10 projects were scored blind to their current status by a second assessor; concordance was 89\% within $\pm$0.5 points per cell.
 
@@ -135,7 +149,7 @@ Inter-rater reliability, measured on a 10-project subsample scored by two indepe
 
 \subsection{Failure Threshold}
 
-A natural failure boundary emerges at an overall BREM score of $\geq$2.5 (Table~\ref{tab:threshold}).
+The 2.5 threshold was selected as the midpoint of the 0--4 scale and validated empirically: an ROC analysis across integer and half-integer thresholds from 1.5 to 3.5 identifies $\geq$2.5 as the F1-maximizing cutoff for the full dataset (F1 = 0.902), with the resolved-only subset achieving F1 = 0.961 at the same point. The threshold also corresponds to the natural separation between the not-failed mean (2.12, $\sigma = 0.45$) and the failed mean (3.04, $\sigma = 0.38$) (Table~\ref{tab:threshold}).
 
 \begin{table}[htbp]
 \caption{Threshold Performance at Overall Score $\geq$ 2.5}
@@ -153,9 +167,15 @@ F1 Score & 0.902 & 0.961 \\
 \end{tabular}
 \end{table}
 
-Among the 62 resolved projects, specificity is 100\%: every project above the threshold that has reached a definitive outcome has failed or entered sustained distress. The five ``false positives'' in the full dataset are all unresolved projects still in pilot or development; these represent predictions that will provide out-of-sample validation as projects mature.
+Among the 62 resolved projects, specificity is 100\%: every project above the threshold that has reached a definitive outcome has failed or entered sustained distress. The five ``false positives'' in the full dataset are all unresolved projects in pilot or development phases; these represent predictions that will provide out-of-sample validation as projects mature. None has reached a definitive outcome, and all exhibit structural risk profiles comparable to confirmed failures.
 
-The three false negatives---HSBC FX Everywhere (2.33), NASDAQ Linq (2.33), and SETL (2.33)---are projects with sound technical architecture that failed for commercial rather than systemic reasons. All three have low architecture risk (na~$\leq$~2) and moderate scalability risk, which pulls the overall score below threshold even when governance (sm~$\geq$~3) and economic fitness (sf~$\geq$~3) are elevated. This pattern suggests the model captures systemic coordination failure more reliably than pure market-driven failure---a meaningful distinction because it identifies the type of failure most closely linked to architectural design choices.
+\subsubsection{False Negatives: The Commercialisation Gap}
+
+The three false negatives---HSBC FX Everywhere (2.33), NASDAQ Linq (2.33), and SETL (2.33)---share a distinctive cell-level pattern: all three have elevated System State domains (sm~$\geq$~3 and sf~$\geq$~3) but low Network risk (na~$\leq$~2) and low Law risk ($\leq$~2.0 domain average). They are architecturally sound platforms that failed on commercialisation---zero or near-zero adoption despite regulatory approval and functional technology.
+
+The averaging mechanism obscures the signal. In each case, the System State domain (3.0--3.33) flags genuine risk, but strong Network and Law scores dilute the overall below 2.5. The domain ceiling rule (Section~\ref{sec:extensions}) catches two of the three: HSBC FX Everywhere and NASDAQ Linq both have System State $>$~3.0 and would be flagged under the dual threshold. SETL sits at the boundary (System State = 3.0 exactly), making it the single project in the dataset that escapes all three threshold rules.
+
+This clarifies BREM's scope: it identifies \textit{systemic coordination risk} attributable to design choices, not \textit{market adoption risk}. All three false negatives had structural capacity to operate but failed commercially---a mode outside the model's boundary. The sm + sf co-elevation is not coincidental: governance discretion (sm~$\geq$~3) correlates with enterprise platforms retaining operational flexibility at the cost of protocol commitment, signalling economic models not yet validated by real usage (sf~$\geq$~3).
 
 \subsection{Mutation Authority Distribution}
 
@@ -179,6 +199,8 @@ Table~\ref{tab:sm} presents the distribution of mutation authority scores.
 \end{table}
 
 The single sm = 0 project is Uniswap V2, a permissionless DeFi protocol with immutable core contracts, no admin keys, and no upgrade mechanism. Zero enterprise projects score below sm = 2. No project with sm $\leq$ 2 has failed in the observed sample: the failure rate at sm = 3 is 35.7\%, rising to 73.5\% at sm = 4, while projects with bounded or absent mutation authority show a 0\% failure rate ($n = 7$).
+
+A potential confound is that sm may simply proxy for ``is this an enterprise project,'' since enterprise deployments require regulatory mechanisms that guarantee sm~$\geq$~2. Two observations counter this interpretation. First, Terra/Luna---a permissionless DeFi protocol---scores sm = 3 and failed catastrophically; its governance discretion was exercised to mint billions of LUNA during the UST depeg, demonstrating that mutation authority destroys permissionless systems through the same mechanism. Second, the sm = 3 failure rate (35.7\%) applies across \textit{both} segments: enterprise projects at sm = 3 fail at comparable rates to DeFi projects at sm = 3. The variable measures a structural property---retained discretion over protocol rules---that operates independently of the enterprise/DeFi distinction.
 
 \subsection{Failure Cascades}\label{sec:cascades}
 
@@ -204,7 +226,7 @@ The strongest chain runs na$\rightarrow$ns$\rightarrow$sf: architecture constrai
 
 \subsection{DeFi Cascade Reversal}
 
-DeFi failures exhibit the same propagation chains through reversed entry points (Table~\ref{tab:defi}).
+Preliminary analysis of the DeFi sub-dataset ($n=12$) suggests that DeFi failures follow the same propagation chains but through reversed entry points (Table~\ref{tab:defi}). Given the small sample size, these findings should be treated as strongly correlated observations rather than definitive causal laws; however, the pattern is consistent across all five DeFi failures.
 
 \begin{table}[htbp]
 \caption{Enterprise vs.\ DeFi Cascade Comparison}
@@ -244,27 +266,17 @@ The empirical pattern supports a proposition: \textit{institutional blockchain d
 
 This convergence is driven by structural requirements: regulatory compliance mandates the ability to freeze assets, reverse transactions, and enforce sanctions; governance structures require discretionary override; operational processes assume mutable records. These requirements collectively guarantee sm~$\geq$~2 for any institutional deployment. The result is a system that uses blockchain vocabulary and infrastructure while preserving every discretionary mechanism that blockchain was designed to remove---what we term a ``database with distributed witnesses.''
 
-Enterprise computing has, since EDI in the 1980s, operated under what we term the \textit{simulation doctrine}: digital systems simulate events (purchase orders, settlement instructions) that humans later verify. A properly constructed blockchain transaction \textit{is} the state change. When institutions adopt blockchain while preserving the simulation doctrine, they produce systems that are neither efficient databases nor genuine blockchains.
-
 \subsection{Implications for DeFi Resilience}
 
-The BREM framework is designed as a practical instrument. A risk analyst, protocol designer, or regulator can score a new or existing protocol across the nine cells using the published rubric, producing a risk profile in under an hour. This makes several DeFi risk management applications immediately viable:
+The BREM matrix is a practical instrument: an analyst can score any existing or prospective protocol across nine cells using the published rubric in under an hour. Applications include pre-launch predictive scoring against the 2.5 threshold; continuous sm monitoring as an early-warning indicator of governance centralization risk (protocols with sm~$\geq$~3 are structurally exposed to the sf$\rightarrow$sm cascade); stress testing using the three propagation chains to model how architectural constraints amplify economic shocks; and governance design---the empirical record that immutability is achievable (Uniswap V2, sm = 0) and that retained discretion is exploitable under stress (Terra/Luna, sm = 3) provides concrete targets for pre-deployment architectural decisions.
 
-\textbf{Predictive risk scoring.} New protocols can be evaluated against the 9-cell matrix before launch. The scoring rubric assesses architectural properties observable at design time---admin key presence, contract upgradeability, consensus mechanism, economic model sustainability---producing a composite score that locates the project relative to the 2.5 failure threshold. This provides a structured alternative to ad-hoc due diligence.
+\subsection{Empirical Validation of Scoring Extensions}\label{sec:ext-empirical}
 
-\textbf{Systemic risk monitoring.} The sm variable provides a single, measurable indicator of governance centralization risk. Protocols with sm $\geq$ 3 are structurally vulnerable to the sf$\rightarrow$sm cascade when economic conditions deteriorate. Continuous monitoring of sm across a portfolio of DeFi positions would flag governance centralization before it manifests as a crisis---functioning as an early-warning system for the type of failure observed in Terra/Luna and Celsius.
+The three scoring extensions defined in Section~\ref{sec:extensions} are evaluated against the 83-project dataset.
 
-\textbf{Stress testing and simulation.} The three propagation chains (na$\rightarrow$ns$\rightarrow$sf, sm$\rightarrow$se$\rightarrow$ls, sf$\rightarrow$sm) provide a structural basis for DeFi stress tests. Rather than simulating price shocks alone, stress scenarios can model how architectural constraints propagate through the cascade---e.g., what happens to a protocol's sf score when ns degrades under load, or how economic stress (sf) exposes governance discretion (sm).
+\textbf{Asymmetric weighting.} When each cell is split at its median, the asymmetry ratios are: consensus (nc: 8.2$\times$), execution (se: 4.5$\times$), architecture (na: 2.1$\times$), legal standing (ls: 1.8$\times$). The strongest asymmetries concentrate in Network and System State; Law domain cells cluster between 1.4$\times$ and 1.8$\times$---still asymmetric, but less so, consistent with the observation that legal risk can independently destroy a project while legal clarity provides only partial protection. Applying asymmetric weights improves F1 from 0.902 to 0.914 at an optimal threshold of 2.7 (Table~\ref{tab:thresholds}).
 
-\textbf{Responsible governance design.} The framework provides empirical evidence that protocol immutability is achievable (Uniswap V2, sm = 0) and that retained discretion is exploitable under economic stress (Terra/Luna, sm = 3). Protocol designers can use the matrix to identify which cells drive their risk profile above threshold and make targeted architectural changes before deployment.
-
-\subsection{Scoring Extensions: Empirical Findings}
-
-Applying BREM to a current multi-platform infrastructure project (a central bank wholesale tokenised asset pilot depending on five independent DLT platforms) revealed three empirically validated extensions to the scoring methodology.
-
-\textbf{(1) Asymmetric cell weighting.} The flat average across nine cells treats each cell's contribution as symmetric---a low score offsets a high score equally. Empirical analysis reveals this is incorrect: \textit{every cell is asymmetric in the same direction}. When each cell is split at its median, the excess failure rate for above-median scores (``fail-pull'') consistently exceeds the excess survival rate for below-median scores (``surv-pull''). The asymmetry is dramatic for consensus (nc: 8.2$\times$), execution (se: 4.5$\times$), and architecture (na: 2.1$\times$). For legal standing (ls), the ratio is 1.8$\times$---a government \textit{can} kill a project (high weight when elevated), but legal clarity alone \textit{cannot} compensate for technical failure (discounted weight when protective). Applying asymmetric weights---where each cell receives $w_\text{up}$ (proportional to fail-pull) when above the risk midpoint and $w_\text{down}$ (proportional to surv-pull) when below---improves F1 from 0.902 to 0.914 at an optimal threshold of 2.7. Crucially, no cell exhibits an asymmetry ratio below 1.0: across all nine dimensions, being bad is strictly more impactful than being good. The strongest asymmetries concentrate in the Network and System State domains (nc, se, na), while the Law domain cells (ls, lr, lp) cluster between 1.4$\times$ and 1.8$\times$---still asymmetric, but less so, consistent with the observation that legal risk can independently destroy a project while legal clarity provides only partial protection.
-
-\textbf{(2) Domain ceiling rule.} The flat average allows a strong law domain to mask failing technical domains. A dual threshold---flag if overall $\geq$~2.5 \textit{or} any domain $>$~3.0---improves F1 to 0.929 (Table~\ref{tab:thresholds}), catching 39/40 failures versus 37/40 with the same false positive count.
+\textbf{Domain ceiling rule.} The dual threshold (overall $\geq$~2.5 \textit{or} any domain $>$~3.0) catches 39/40 failures versus 37/40 for the base threshold, with the same false positive count, improving F1 to 0.929.
 
 \begin{table}[htbp]
 \caption{Threshold Rule Comparison (Resolved, n=62)}
@@ -281,15 +293,9 @@ Overall $\geq$ 2.5 or domain $>$ 3.0 & 97.5\% & 100\% & 0.929 \\
 \end{tabular}
 \end{table}
 
-The two additional catches are projects with strong institutional backing but technically compromised infrastructure---precisely the ``technical zombie'' pattern the flat average obscures. One such case (HSBC FX Everywhere, overall = 2.33) has Network and System State domains averaging 3.0 while Law averages 1.0; the flat average places it below threshold, but it failed regardless. System State is the most predictive domain (Cohen's $d = 2.53$); averaging it equally with Law ($d = 1.25$) dilutes the strongest failure signal in the framework. The domain ceiling catches these cases by ensuring that no single domain---however strong---can compensate for another domain that has crossed into the failure zone.
+The two additional catches are projects with strong institutional backing but technically compromised infrastructure---the ``technical zombie'' pattern. HSBC FX Everywhere (overall = 2.33) has Network and System State domains averaging 3.0 while Law averages 1.0; the flat average places it below threshold, but it failed regardless. System State is the most predictive domain (Cohen's $d = 2.53$); averaging it equally with Law ($d = 1.25$) dilutes the strongest signal.
 
-\textbf{(3) Dependency decomposition.} The SPP framework assumes a single coherent subject per cell. When a project depends on $N$ independent platforms with independent governance, the question ``what is the architecture?'' has $N$ different answers. The mutation surface scales non-linearly: if each platform has probability $p$ of a breaking change, $P(\text{break}) = 1 - (1-p)^N$. With seven governance bodies at 10\% each, $P(\text{break}) = 52\%$ versus 10\% for a single authority---a 5.2$\times$ increase in annual disruption probability. We propose a dependency penalty: $\text{sm}_\text{eff} = \min(4,\, \text{sm}_\text{base} + \lceil\log_2 N\rceil)$.
-
-Critically, the correct composition rule differs by cell. Scalability is bottlenecked by the slowest platform (for cross-chain settlement, effective throughput = min across all legs). Mutation authority is the union of all governance bodies---any can independently break the system. Architecture inherits the worst-case platform plus an interoperability penalty for paradigm mismatches (e.g., account-based versus UTXO versus zero-knowledge nullifier models, each with fundamentally different state management). This is not merely theoretical: account-based platforms create hot-spot contention when a single high-frequency asset (such as a CBDC) dominates transactions, because all updates to that asset's state must be serialized. Marketed throughput figures, typically measured across many independent accounts, do not reflect single-asset contention performance.
-
-A further complication is \textit{liability asymmetry} at the platform layer. Platform providers typically disclaim liability for third-party integrations through standard terms of service, capping aggregate liability at nominal amounts. This means the governance body overseeing a multi-platform project may have no contractual recourse when an upstream platform deploys a breaking change---rendering the project's own governance a facade that controls rules but not the infrastructure those rules depend on.
-
-\textit{Cross-validation.} Applying BREM with dependency decomposition to three current central-bank wholesale settlement projects confirms the effect (Table~\ref{tab:crossval}). All three have near-identical Law domains ($\approx$1.33), similar institutional backing, and central bank oversight. The entire risk differential is architectural: the single-platform project passes every threshold rule comfortably, the modular multi-platform project is borderline, and the systemically-coupled multi-platform project sits at the domain ceiling boundary. Critically, the modular project---which isolates use cases on separate chains---scores lower than the systemic project despite having \textit{more} total platform dependencies, because its per-function $N$ is 2--3 rather than 5--7. This confirms that the dependency penalty should scale with the number of platforms that must \textit{interoperate for a single settlement function}, not the total platform count in the ecosystem.
+\textbf{Dependency decomposition cross-validation.} Applying BREM with dependency decomposition to three current central-bank wholesale settlement pilots confirms the effect (Table~\ref{tab:crossval}). All three have near-identical Law domains ($\approx$1.33), similar institutional backing, and central bank oversight. The entire risk differential is architectural: the single-platform project passes every threshold rule comfortably; the systemically-coupled multi-platform project sits at the domain ceiling boundary.
 
 \begin{table}[htbp]
 \caption{Cross-Validation: Central Bank Settlement Pilots}
@@ -306,7 +312,7 @@ Systemic multi & 5 & 4 & 3.00 & 3.00 & 1.33 & 2.44 \\
 \end{tabular}
 \end{table}
 
-These extensions are compatible with the current framework and improve predictive performance on the existing dataset while addressing analytical gaps that emerge when scoring modern multi-platform architectures. Notably, privacy-preserving architectures such as zero-knowledge nullifier systems (e.g., Zcash Sapling, DarkFi) do not require structural additions to the matrix: the commitment-tree and nullifier-set model maps to existing cells---architecture (na) captures the cryptographic state model, scalability (ns) captures proof-generation overhead, and the Law domain captures the distinctive tension whereby unlinkability can elevate remedy risk (lr) since property rights become difficult to prove in dispute.
+Critically, the modular project---which isolates use cases on separate chains---scores lower than the systemic project despite having \textit{more} total platform dependencies, because its per-function $N$ is 2--3 rather than 5--7. This confirms that the dependency penalty scales with per-function interoperability requirements, not total platform count. A further complication is \textit{liability asymmetry}: platform providers typically disclaim liability for third-party integrations, capping aggregate liability at nominal amounts, rendering the project's own governance a facade that controls rules but not the infrastructure those rules depend on.
 
 \subsection{Threats to Validity}
 
@@ -314,7 +320,9 @@ The 0--4 scoring scale involves expert judgment ($\kappa = 0.81$ cell-level, 0.9
 
 \subsection{Future Work}
 
-Future work includes expanding the DeFi dataset, developing AI-driven automated scoring from on-chain governance data and protocol documentation, longitudinal tracking as an early-warning system, and integration with DeFi stress testing frameworks. As a proof of concept, we have implemented a prototype AI risk advisor encoding the scoring heuristics and dataset comparables for interactive guided assessments. The 21 unresolved projects provide a natural out-of-sample validation cohort as they mature.
+Future work includes expanding the DeFi dataset, longitudinal tracking as an early-warning system, and integration with DeFi stress testing frameworks. The 21 unresolved projects provide a natural out-of-sample validation cohort as they mature.
+
+\textbf{Agentic risk assessment.} The static instrument produces point-in-time scores, but risk profiles shift with use-case scope and roadmap evolution. Future work explores using the 9-cell matrix and branching instrument as a constraint structure for an AI-driven assessment agent that conducts semi-structured protocol interviews, captures contextual factors the static rubric cannot, and flags cells where plausible scope changes would shift the score by $\geq$1 point. A prototype implementation confirms feasibility.
 
 \section{Conclusion}
 
@@ -330,7 +338,7 @@ The authors acknowledge the use of AI-assisted tools (Anthropic Claude) for data
 
 \section*{Data Availability}
 
-The scored dataset (83 projects $\times$ 40 columns), scoring rubric, codebook, and per-project evidence summaries are available at: \url{https://github.com/[redacted-for-review]}. We encourage independent replication and extension.
+The scored dataset (83 projects $\times$ 40 columns), scoring rubric, codebook, and per-project evidence summaries are available at: \url{https://anonymous.4open.science/r/[INSERT-ANONYMOUS-REPO-ID]}. We encourage independent replication and extension.
 
 \begin{thebibliography}{00}
 
@@ -344,11 +352,11 @@ The scored dataset (83 projects $\times$ 40 columns), scoring rubric, codebook, 
 
 \bibitem{xu2023} J.~Xu, K.~Paruch, S.~Cousaert, and Y.~Feng, ``SoK: Decentralized exchanges (DEX) with automated market maker (AMM) protocols,'' \textit{ACM Computing Surveys}, vol.~55, no.~11, 2023, doi:~10.1145/3570639.
 
-\bibitem{asx2022} ASX Limited, ``CHESS replacement---ASX reassessing; financial derecognition,'' ASX Market Announcement, Nov.\ 2022. [Online]. Available: \url{https://www.asx.com.au/content/dam/asx/about/media-releases/2022/60-17-november-2022-CHESS-Replacement-ASX-reassessing-financial-derecognition_.pdf}
+\bibitem{asx2022} ASX Limited, ``CHESS replacement---ASX reassessing; financial derecognition,'' ASX Market Announcement, Nov.\ 2022. [Online]. Available: \url{https://www.asx.com.au/content/dam/asx/about/media-releases/2022/60-17-november-2022-CHESS-Replacement-ASX-reassessing-financial-derecognition_.pdf}. Accessed: Mar.\ 9, 2026.
 
 \bibitem{catalini2020} C.~Catalini and J.~Gans, ``Some simple economics of the blockchain,'' \textit{Communications of the ACM}, vol.~63, no.~7, pp.\ 80--90, 2020, doi:~10.1145/3359552.
 
-\bibitem{carson2018} B.~Carson, G.~Romanelli, P.~Walsh, and A.~Zhumaev, ``Blockchain beyond the hype: What is the strategic business value?'' McKinsey Digital, Jun.\ 2018. [Online]. Available: \url{https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/blockchain-beyond-the-hype-what-is-the-strategic-business-value}
+\bibitem{carson2018} B.~Carson, G.~Romanelli, P.~Walsh, and A.~Zhumaev, ``Blockchain beyond the hype: What is the strategic business value?'' McKinsey Digital, Jun.\ 2018. [Online]. Available: \url{https://www.mckinsey.com/capabilities/mckinsey-digital/our-insights/blockchain-beyond-the-hype-what-is-the-strategic-business-value}. Accessed: Mar.\ 9, 2026.
 
 \bibitem{barbereau2022} T.~Barbereau, R.~Smethurst, O.~Papageorgiou, J.~Sedlmeir, and G.~Fridgen, ``Decentralised finance's timocratic governance: The distribution and exercise of tokenised voting rights,'' \textit{Technology in Society}, vol.~73, 2023, doi:~10.1016/j.techsoc.2023.102251.
 
@@ -362,7 +370,7 @@ The scored dataset (83 projects $\times$ 40 columns), scoring rubric, codebook, 
 
 \bibitem{ray2022} J.~Ray~III, ``First day declaration,'' \textit{In re FTX Trading Ltd.}, Case No.\ 22-11068, Doc.\ 24 (Bankr.\ D.\ Del.), Nov.\ 17, 2022.
 
-\bibitem{celsius2022} Federal Trade Commission, ``FTC reaches settlement with crypto platform Celsius Network,'' FTC Press Release, Jul.\ 13, 2023. [Online]. Available: \url{https://www.ftc.gov/news-events/news/press-releases/2023/07/ftc-reaches-settlement-crypto-platform-celsius-network}
+\bibitem{celsius2022} Federal Trade Commission, ``FTC reaches settlement with crypto platform Celsius Network,'' FTC Press Release, Jul.\ 13, 2023. [Online]. Available: \url{https://www.ftc.gov/news-events/news/press-releases/2023/07/ftc-reaches-settlement-crypto-platform-celsius-network}. Accessed: Mar.\ 9, 2026.
 
 \end{thebibliography}
 

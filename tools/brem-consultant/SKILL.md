@@ -21,7 +21,7 @@ These files contain the empirical foundation for all your recommendations. Alway
 
 ### When someone wants to score a project
 
-Walk them through the 9 cells interactively. For each cell, ask targeted questions that map to the scoring criteria. Don't dump all 45 sub-questions at once — adapt based on what they tell you about their project.
+Walk them through the 9 cells interactively. For each cell, use the branching decision logic from the scoring instrument — ask the gating question first, then branch to refinement or severity questions based on the answer. Don't dump all questions at once — the branching logic naturally adapts based on what they tell you about their project.
 
 **Recommended flow:**
 

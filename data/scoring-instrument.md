@@ -184,6 +184,9 @@ Each of the nine BREM cells is scored through a sequence of 4–5 diagnostic que
 - [ ] WASM / Move / custom VM
 - [ ] Smart legal contracts (Corda, DAML)
 - [ ] Custodial / API-mediated
+- [ ] Execution-level censorship (blocklist enforcement, address freezing at protocol level)
+
+*Note: Execution-level censorship (e.g., address blocklists enforced at consensus) is a mutation authority concern captured in sm, not an execution model risk. It reflects who controls the system, not how state transitions work. Record it here for context but score it through sm.*
 
 ---
 
@@ -274,13 +277,16 @@ Each of the nine BREM cells is scored through a sequence of 4–5 diagnostic que
 
 ### ls — Standing
 
-**Q1 (GATING):** Does the system maintain a continuous chain of attributable signatures linking ownership from one party to the next?
+**Q1 (GATING):** Can transaction parties be reliably attributed to identifiable legal persons through the system's native mechanisms?
 
 | Answer | Effect |
 |--------|--------|
-| Yes — UTXO chain of title; parties identifiable through standard legal process | Ceiling = 1, go to Q3 |
-| Partially — attribution chain exists but has gaps (intermediaries, mixers, bridge crossings) | Score = 2, go to Q4 |
+| Yes — continuous cryptographic attribution (UTXO chain of title, or equivalent record-level signatures) linking parties through standard legal process | Ceiling = 1, go to Q3 |
+| Yes — continuous institutional attribution: all participants identified through regulated infrastructure (KYC/AML enforcement, permissioned access, regulated entity operates the system) | Ceiling = 1, go to Q3 |
+| Partially — attribution chain exists but has gaps (intermediaries, mixers, bridge crossings, pseudonymous accounts without institutional backstop) | Score = 2, go to Q4 |
 | No — non-attributable transactions; ownership record does not identify legally responsible actors | Floor = 3, go to Q2 |
+
+*Note: Cryptographic attribution (UTXO chain-of-title) and institutional attribution (regulated entity with KYC enforcement) are equally valid paths to legal standing. The question is whether a court can identify the parties, not the mechanism by which identification is achieved.*
 
 **Q2 (SEVERITY — only if Q1 = non-attributable):** Can parties be identified through any compulsory legal process (subpoena, court order)?
 
@@ -415,5 +421,6 @@ The instrument is a **forward-looking scoring tool** for new assessments. The ex
 
 ---
 
-*BREM Scoring Instrument v1.0 — March 2026*
+*BREM Scoring Instrument v1.1 — March 2026*
+*v1.1: ls Q1 revised to recognise institutional attribution alongside cryptographic attribution; se Q5 adds execution-level censorship context option*
 *Price, T. — Blockchain Risk Evaluation Model*
